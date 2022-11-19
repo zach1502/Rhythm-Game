@@ -16,7 +16,6 @@ class Note{
      */
     constructor(key){
         this.key = key;
-        this.hit = false;
 
         // create the note
         this.note = document.createElement("div");
@@ -39,6 +38,9 @@ class Note{
                 break;
             default:
                 console.log("invalid key");
+                // delete the note
+                this.note.remove();
+                delete this;
                 break;
         }
 
@@ -60,10 +62,15 @@ window.onload = function(){
         attachEventHandlers();
         getKeys();
         loadSong();
+        startBackgroundLoop();
         //loadMap();
 
         const note = new Note("d");
     }
+}
+
+function startBackgroundLoop(){
+    setInterval(cleanNotes, 250);
 }
 
 function attachEventHandlers(){
@@ -90,13 +97,20 @@ function start(){
 
 function cleanNotes(){
     // if note is below the screen, remove it
-    for(let note of notes){
-        let y = parseInt(note.style.top);
-        note.style.top = y + 5 + 'px';
-        if(y > 500){
-            note.remove();
+    for(let i = 0; i < notes.length; i++){
+        const note = notes[i];
+        if(isOffScreen(note.note.getBoundingClientRect())){
+            note.note.remove();
+            notes.splice(i, 1);
+
+            console.log("Cleaned up offscreen note");
+        }
+        if(aboveKeys(note.note.getBoundingClientRect())){
+            break;
         }
     }
+
+    console.log("finished cleaning");
 }
 
 function keyDownHandler(e){
@@ -105,49 +119,83 @@ function keyDownHandler(e){
         case 'd':
             setBrightness(dkey, 50);
             popElement(dkey, 1.1);
-            hitCheck(dkey);
+            hitCheck(e.key, dkey);
             break;
         case 'f':
             setBrightness(fkey, 50);
             popElement(fkey, 1.1);
-            hitCheck(fkey);
+            hitCheck(e.key, fkey);
             break;
         case 'j':
             setBrightness(jkey, 50);
             popElement(jkey, 1.1);
-            hitCheck(jkey);
+            hitCheck(e.key, jkey);
             break;
         case 'k':
             setBrightness(kkey, 50);
             popElement(kkey, 1.1);
-            hitCheck(kkey);
+            hitCheck(e.key, kkey);
             break;
         case ";":
-            // spawn note
-            new Note();
+            // spawn random note
+            const keys = ["d", "f", "j", "k"];
+            new Note(keys[Math.floor(Math.random() * keys.length)]);
             break;
         default:
             break;
     }
 }
 
-function hitCheck(key){
-    const key_pos = key.getBoundingClientRect();
+function hitCheck(key, key_element){
+    const key_pos = key_element.getBoundingClientRect();
 
     // for all notes, check if the key collides with the note
     for(let i = 0; i < notes.length; i++){
+        // notes has their elements in the order of old to new
         let note = notes[i];
         const note_pos = note.note.getBoundingClientRect();
 
-        if(isCollision(key_pos, note_pos)){
+        // this cleans up old missed notes
+        if(isBelow(note_pos, key_pos)){
             note.note.remove();
             notes.splice(i, 1);
+
+            console.log("Cleaned up impossible to hit note");
+            continue;
+        }
+
+        // check if the note hit the key
+        if(note.key != key){
+            continue;
+        }
+
+        if(isCollision(key_pos, note_pos)){
+            // remove all references to the note (can be garbage collected)
+            note.note.remove();
+            notes.splice(i, 1);
+
+            // add score
             console.log("hit");
         }
         else{
+            note.note.remove();
+            notes.splice(i, 1);
+
             console.log("miss");
         }
     }
+}
+
+function isBelow(rect1, rect2){
+    return rect1.top > rect2.bottom;
+}
+
+function aboveKeys(rect){
+    return rect.bottom < dkey.getBoundingClientRect().top;
+}
+
+function isOffScreen(rect){
+    return rect.top >= window.innerHeight;
 }
 
 function isCollision(rect1, rect2){

@@ -135,10 +135,13 @@ function hitCheck(key){
     const key_pos = key.getBoundingClientRect();
 
     // for all notes, check if the key collides with the note
-    for(let note of notes){
+    for(let i = 0; i < notes.length; i++){
+        let note = notes[i];
         const note_pos = note.note.getBoundingClientRect();
 
         if(isCollision(key_pos, note_pos)){
+            note.note.remove();
+            notes.splice(i, 1);
             console.log("hit");
         }
         else{

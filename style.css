@@ -1,0 +1,64 @@
+html {
+    overflow-y: hidden;
+}
+
+#intro {
+    margin-left: 65%;
+}
+
+#game-area{
+    background-color: #333;
+    width: 60%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.d, .f, .j, .k {
+    /* rectangle inside of game area*/
+    background-color: #fff;
+    width: 150px;
+    height: 50px;
+    position: absolute;
+    top: 80%;
+
+    /* animation */
+    transition: all 50ms linear 0ms;
+    filter: brightness(100%);
+    transform: scale(1);
+}
+
+.d {
+    left: 10%;
+    background-color: purple;
+}
+.f {
+    left: 30%;
+    background-color: cyan;
+}
+.j {
+    left: 50%;
+    background-color: greenyellow;
+}
+.k {
+    left: 70%;
+    background-color: red;
+}
+
+.note {
+    animation: note 2000ms linear;
+    transition: note 2000ms linear;
+    position: absolute;
+    z-index: -1;
+}
+
+@keyframes note {
+    from {
+        top: 0;
+    }
+    to {
+        top: 100%;
+    }
+}

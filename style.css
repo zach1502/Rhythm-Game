@@ -48,10 +48,12 @@ html {
 }
 
 .note {
+    /* this determines the speed of the note */
     animation: note 2000ms linear;
     transition: note 2000ms linear;
     position: absolute;
     z-index: -1;
+    top: 100%
 }
 
 @keyframes note {

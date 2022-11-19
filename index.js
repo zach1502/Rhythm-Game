@@ -13,7 +13,6 @@ let song; // Audio
 class Note{
     /*
      * @param {string} key - key to check
-     * @param {number} speed - speed of the note
      */
     constructor(key){
         this.key = key;
@@ -61,7 +60,9 @@ window.onload = function(){
         attachEventHandlers();
         getKeys();
         loadSong();
-        const test = new Note("d");
+        //loadMap();
+
+        const note = new Note("d");
     }
 }
 
@@ -104,22 +105,22 @@ function keyDownHandler(e){
         case 'd':
             setBrightness(dkey, 50);
             popElement(dkey, 1.1);
-            // hitCheck(dkey);
+            hitCheck(dkey);
             break;
         case 'f':
             setBrightness(fkey, 50);
             popElement(fkey, 1.1);
-            // hitCheck(fkey);
+            hitCheck(fkey);
             break;
         case 'j':
             setBrightness(jkey, 50);
             popElement(jkey, 1.1);
-            // hitCheck(jkey);
+            hitCheck(jkey);
             break;
         case 'k':
             setBrightness(kkey, 50);
             popElement(kkey, 1.1);
-            // hitCheck(kkey);
+            hitCheck(kkey);
             break;
         case ";":
             // spawn note
@@ -128,6 +129,29 @@ function keyDownHandler(e){
         default:
             break;
     }
+}
+
+function hitCheck(key){
+    const key_pos = key.getBoundingClientRect();
+
+    // for all notes, check if the key collides with the note
+    for(let note of notes){
+        const note_pos = note.note.getBoundingClientRect();
+
+        if(isCollision(key_pos, note_pos)){
+            console.log("hit");
+        }
+        else{
+            console.log("miss");
+        }
+    }
+}
+
+function isCollision(rect1, rect2){
+    return !(rect1.right < rect2.left || 
+        rect1.left > rect2.right || 
+        rect1.bottom < rect2.top || 
+        rect1.top > rect2.bottom);
 }
 
 // on key press

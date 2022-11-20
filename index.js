@@ -201,9 +201,8 @@ async function start(){
     removeKeyHints();
 
     // start the game
-    await sleep(2000);
+    await sleep(1000);
     song.play();
-
     for(let mapNote of map){
         const id = mapNote[0];
         const time = mapNote[1];
@@ -260,7 +259,6 @@ function cleanNotes(){
         // play once for a large amount of notes
         resetCombo();
     }
-    console.log("finished cleaning");
 }
 
 function keyDownHandler(e){
@@ -354,7 +352,7 @@ function updateAccuracy(accVal){
     
     // update accuracy text
     const accElement = document.getElementById("accuracy");
-    accElement.innerHTML = `${(acc * 100).toFixed(4)}`;
+    accElement.innerHTML = `${(acc * 100).toFixed(2)}`;
 }
 
 let fontSize = 16;
@@ -376,12 +374,13 @@ function calculatePoints(key_pos, note_pos){
     const distance = Math.abs(key_pos.y - note_pos.y);
     
     // perfect hits are n% of the key height
-    const perfect = key_height - key_height * 0.70;
-    const excellent = key_height - key_height * 0.40;
+    const perfect = key_height - key_height * 0.50;
+    const excellent = key_height - key_height * 0.25;
     const good = key_height - key_height * 0.10;
     // bad is everything else
 
-    console.log(distance);
+    // negative means late, positive means early
+    console.log(key_pos.y - note_pos.y);
 
     if(distance < perfect){
         incrementStat("perfect");
@@ -476,4 +475,3 @@ function isCollision(rect1, rect2){
         rect1.bottom < rect2.top || 
         rect1.top > rect2.bottom);
 }
-

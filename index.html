@@ -18,14 +18,18 @@
             <div class="k" style="filter: brightness(100%); transform: scale(1.0);"> K </div>
         </div>
         <div id="side-panel">
-            <h1>Generic 4K Rhythm Game</h1>
+            <h1>4K Rhythm Game</h1>
             <button id="play" onclick="start()" style="display:block"> Play </button>
+            <div id="warning">
+                <img alt="Warning!!!" src="./warning.png" height="100" weight="100">
+                <p>Warning: Your device may be too small for a proper experience!</p>
+            </div>
             <div id="game-stats">
                 Score: <div id="score">0</div>
                 <br>
                 Combo: <div id="combo">0</div>
                 <br>
-                Accuracy: <div id="accuracy">0</div>%
+                Accuracy: <div id="accuracy">00.00</div>%
                 <br>
             </div>
             <div id="hit-stats">
@@ -62,11 +66,6 @@
                         <input type="range" min="1" max="100" value="35" class="slider" id="sfx-volume">
                     </div>
                 </div>
-            </div>
-
-            <div id="warning">
-                <img alt="Warning!!!" src="./warning.png" height="100" weight="100">
-                <p>Warning: Your device isn't large enough for a proper experience!</p>
             </div>
         </div>
         <iframe title="" id="map" src="./map.txt" style="display: none;"></iframe>

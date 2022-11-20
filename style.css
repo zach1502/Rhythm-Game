@@ -17,6 +17,10 @@ button {
     font-size: 32pt;
     margin-bottom: 16pt;
 }
+h1{
+    font-size: 32pt;
+    margin-bottom: 16pt;
+}
 
 #side-panel {
     text-align: center;
@@ -42,7 +46,7 @@ button {
     width: 150px;
     height: 50px;
     position: absolute;
-    top: 85%;
+    top: 80%;
 
     /* animation */
     transition: all 50ms linear 0ms;
@@ -71,13 +75,13 @@ button {
 }
 .k {
     left: 70%;
-    background-color: rgb(255, 20, 20);
+    background-color: rgb(255, 50, 50);
 }
 
 .note {
     /* this determines the speed of the note */
-    animation: note 2000ms linear;
-    transition: note 2000ms linear;
+    animation: note 1400ms linear;
+    transition: note 1400ms linear;
     position: absolute;
     z-index: -1;
     top: 100%

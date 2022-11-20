@@ -7,7 +7,16 @@ let jkey;
 let kkey;
 
 let notes = []; // list of notes on screen
-let song; // Audio
+
+// Audio
+let song;
+let hitSound;
+let missSound;
+
+let songVolumeSlider;
+let songVolumeOutput;
+let sfxVolumeSlider;
+let sfxVolumeOutput;
 
 let map = [];
  
@@ -67,9 +76,33 @@ window.onload = function(){
         // initialize game
         attachEventHandlers();
         getKeys();
-        loadSong();
+        getSliders();
+        loadSounds();
         startBackgroundLoop();
         loadMap();
+    }
+}
+
+function getSliders(){
+    // get slider elements
+    songVolumeSlider = document.getElementById("song-volume");
+    songVolumeOutput = document.getElementById("song-volume-value");
+    sfxVolumeSlider = document.getElementById("sfx-volume");
+    sfxVolumeOutput = document.getElementById("sfx-volume-value");
+
+    // set slider value
+    songVolumeOutput.innerHTML = songVolumeSlider.value;
+    sfxVolumeOutput.innerHTML = sfxVolumeSlider.value;
+
+    songVolumeSlider.oninput = function(){
+        songVolumeOutput.innerHTML = this.value;
+        song.volume = this.value / 100;
+    }
+    
+    sfxVolumeSlider.oninput = function(){
+        sfxVolumeOutput.innerHTML = this.value;
+        hitSound.volume = this.value / 200; // THESE SOUNDS ARE TOO LOUD
+        missSound.volume = this.value / 200;
     }
 }
 
@@ -148,9 +181,11 @@ function getKeys(){
     jkey = document.querySelector('.j');
     kkey = document.querySelector('.k');
 }
-function loadSong(){
+function loadSounds(){
     // load song
     song = new Audio("Giorno's theme.mp3");
+    hitSound = new Audio("hit.wav");
+    missSound = new Audio("miss.wav");
 }
 
 async function start(){
@@ -272,6 +307,8 @@ function hitCheck(key, key_element){
 
             // add score
             handleHit(key_pos, note_pos);
+            hitSound.currentTime = 0;
+            hitSound.play();
             return;
         }
         else{
@@ -281,6 +318,8 @@ function hitCheck(key, key_element){
             incrementStat("misses");
             resetCombo();
             updateAccuracy(0.0);
+            missSound.currentTime = 0;
+            missSound.play();
             return;
         }
     }
@@ -412,3 +451,4 @@ function isCollision(rect1, rect2){
         rect1.bottom < rect2.top || 
         rect1.top > rect2.bottom);
 }
+

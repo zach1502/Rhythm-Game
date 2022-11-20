@@ -1,9 +1,29 @@
 html {
     overflow-y: hidden;
 }
+body {
+    font-family: monospace, serif;
+    color: #fff;
+    background-color: #444;
+}
+button {
+    margin-left: auto;
+    margin-right: auto;
+    font-family: monospace, serif;
+    background-color: #333;
 
-#intro {
-    margin-left: 65%;
+    /* selected color */
+    color: #fff;
+    font-size: 32pt;
+    margin-bottom: 16pt;
+}
+
+#side-panel {
+    text-align: center;
+    margin-left: 60%;
+    margin-top: 20%;
+    height: 100%;
+    background-color: #444;
 }
 
 #game-area{
@@ -63,4 +83,31 @@ html {
     to {
         top: 100%;
     }
+}
+
+#score, #combo, #accuracy, #misses, #bad, #good, #excellent, #perfect {
+    display: inline;
+}
+
+#game-stats {
+    font-size: 16pt;
+}
+
+#hit-stats {
+    font-size: 16pt;
+}
+#perfect-stat {
+    color: rgb(20, 214, 20)
+}
+#excellent-stat {
+    color: greenyellow
+}
+#good-stat {
+    color: yellow
+}
+#bad-stat {
+    color: orange
+}
+#misses-stat {
+    color: rgb(255, 46, 46)
 }

@@ -16,15 +16,34 @@
             <div class="f" style="filter: brightness(100%); transform: scale(1.0);"> </div>
             <div class="j" style="filter: brightness(100%); transform: scale(1.0);"> </div>
             <div class="k" style="filter: brightness(100%); transform: scale(1.0);"> </div>
-            <div id="score">
-                
+        </div>
+        <div id="side-panel">
+            <h1>Generic 4K Rhythm Game</h1>
+            <button id="play" onclick="start()" style="display:block"> Play </button>
+            <div id="game-stats">
+                Score: <div id="score">0</div>
+                Combo: <div id="combo">0</div>
+                Accuracy: <div id="accuracy">0</div>%
+            </div>
+            <div id="hit-stats">
+                <span id="perfect-stat">
+                    Perfect: <div id="perfect">0</div>
+                </span>
+                <span id="excellent-stat">
+                    Excellent: <div id="excellent">0</div>
+                </span>
+                <span id="good-stat">
+                    Good: <div id="good">0</div>
+                </span>
+                <span id="bad-stat">
+                    Bad: <div id="bad">0</div>
+                </span>
+                <span id="misses-stat">
+                    Misses: <div id="misses">0</div>
+                </span>
             </div>
         </div>
-        <div id="intro">
-            <h1>Generic 4K Rhythm Game</h1>
-            <p>Press the spacebar to start!</p>
-            <button id="play" onclick="start()"></button>
-        </div>
+        <iframe title="" id="map" src="./map.txt" style="display: none;"></iframe>
         <script src="index.js"></script>
     </body>
 </html>

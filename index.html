@@ -12,32 +12,39 @@
     </head>
     <body>
         <div id="game-area">
-            <div class="d" style="filter: brightness(100%); transform: scale(1.0);"> </div>
-            <div class="f" style="filter: brightness(100%); transform: scale(1.0);"> </div>
-            <div class="j" style="filter: brightness(100%); transform: scale(1.0);"> </div>
-            <div class="k" style="filter: brightness(100%); transform: scale(1.0);"> </div>
+            <div class="d" style="filter: brightness(100%); transform: scale(1.0);"> D </div>
+            <div class="f" style="filter: brightness(100%); transform: scale(1.0);"> F </div>
+            <div class="j" style="filter: brightness(100%); transform: scale(1.0);"> J </div>
+            <div class="k" style="filter: brightness(100%); transform: scale(1.0);"> K </div>
         </div>
         <div id="side-panel">
             <h1>Generic 4K Rhythm Game</h1>
             <button id="play" onclick="start()" style="display:block"> Play </button>
             <div id="game-stats">
                 Score: <div id="score">0</div>
+                <br>
                 Combo: <div id="combo">0</div>
+                <br>
                 Accuracy: <div id="accuracy">0</div>%
+                <br>
             </div>
             <div id="hit-stats">
                 <span id="perfect-stat">
                     Perfect: <div id="perfect">0</div>
                 </span>
+                <br>
                 <span id="excellent-stat">
                     Excellent: <div id="excellent">0</div>
                 </span>
+                <br>
                 <span id="good-stat">
                     Good: <div id="good">0</div>
                 </span>
+                <br>
                 <span id="bad-stat">
                     Bad: <div id="bad">0</div>
                 </span>
+                <br>
                 <span id="misses-stat">
                     Misses: <div id="misses">0</div>
                 </span>
@@ -48,13 +55,18 @@
                 <div id="options-list">
                     <div id="songvolume">
                         Song Volume: <div id="song-volume-value">100</div>
-                        <input type="range" min="1" max="100" value="70" class="slider" id="song-volume">
+                        <input type="range" min="1" max="100" value="35" class="slider" id="song-volume">
                     </div>
                     <div id="sfxvolume">
                         SFX Volume: <div id="sfx-volume-value">100</div>
-                        <input type="range" min="1" max="100" value="70" class="slider" id="sfx-volume">
+                        <input type="range" min="1" max="100" value="35" class="slider" id="sfx-volume">
                     </div>
                 </div>
+            </div>
+
+            <div id="warning">
+                <img alt="Warning!!!" src="./warning.png" height="100" weight="100">
+                <p>Warning: Your device isn't large enough for a proper experience!</p>
             </div>
         </div>
         <iframe title="" id="map" src="./map.txt" style="display: none;"></iframe>

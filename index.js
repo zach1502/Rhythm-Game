@@ -101,8 +101,8 @@ function getSliders(){
     
     sfxVolumeSlider.oninput = function(){
         sfxVolumeOutput.innerHTML = this.value;
-        hitSound.volume = this.value / 200; // THESE SOUNDS ARE TOO LOUD
-        missSound.volume = this.value / 200;
+        hitSound.volume = this.value / 400; // THESE SOUNDS ARE TOO LOUD
+        missSound.volume = this.value / 400;
     }
 }
 
@@ -125,6 +125,7 @@ function loadMap(){
 
     let prev_time = -1;
     for(let line of lines){
+        line = line.trim();
         if(line == "") continue; // ignore empty lines
         if(line[0] == "/" && line[1] == "/") continue; // comment
 
@@ -186,12 +187,18 @@ function loadSounds(){
     song = new Audio("Giorno's theme.mp3");
     hitSound = new Audio("hit.wav");
     missSound = new Audio("miss.wav");
+
+    song.volume = songVolumeSlider.value / 100;
+    missSound.volume = sfxVolumeSlider.value / 400;
+    hitSound.volume = sfxVolumeSlider.value / 400;
 }
 
 async function start(){
     // hide start button, show stats
-    document.getElementById("play").style.display = "none";
-    document.getElementById("game-stats").style.display = "block";
+    document.getElementById("play").style.visibility = "hidden";
+
+    // Remove Key Hints
+    removeKeyHints();
 
     // start the game
     await sleep(2000);
@@ -224,14 +231,23 @@ async function start(){
     }
 }
 
+function removeKeyHints(){
+    document.getElementsByClassName("d")[0].innerHTML = "";
+    document.getElementsByClassName("f")[0].innerHTML = "";
+    document.getElementsByClassName("j")[0].innerHTML = "";
+    document.getElementsByClassName("k")[0].innerHTML = "";
+}
+
 function cleanNotes(){
     // if note is below the screen, remove it
+    let cleaned = false;
     for(let i = 0; i < notes.length; i++){
         const note = notes[i];
         if(isOffScreen(note.note.getBoundingClientRect())){
             note.note.remove();
             notes.splice(i, 1);
 
+            cleaned = true;
             incrementStat("misses");
             updateAccuracy(0.0);
         }
@@ -240,6 +256,10 @@ function cleanNotes(){
         }
     }
 
+    if(cleaned){
+        // play once for a large amount of notes
+        resetCombo();
+    }
     console.log("finished cleaning");
 }
 
@@ -291,6 +311,7 @@ function hitCheck(key, key_element){
             notes.splice(i, 1);
 
             incrementStat("misses");
+            resetCombo();
             updateAccuracy(0.0);
             continue;
         }
@@ -318,8 +339,6 @@ function hitCheck(key, key_element){
             incrementStat("misses");
             resetCombo();
             updateAccuracy(0.0);
-            missSound.currentTime = 0;
-            missSound.play();
             return;
         }
     }
@@ -335,9 +354,10 @@ function updateAccuracy(accVal){
     
     // update accuracy text
     const accElement = document.getElementById("accuracy");
-    accElement.innerHTML = `${acc.toFixed(4) * 100}`;
+    accElement.innerHTML = `${(acc * 100).toFixed(4)}`;
 }
 
+let fontSize = 16;
 function handleHit(key_pos, note_pos){
     // add score
     const points = calculatePoints(key_pos, note_pos);
@@ -345,6 +365,9 @@ function handleHit(key_pos, note_pos){
 
     // add combo
     incrementStat("combo");
+    // increase #game-stats font size
+    fontSize += 0.05;
+    document.getElementById("game-stats").style.fontSize = `${fontSize}pt`;
 }
 
 function calculatePoints(key_pos, note_pos){
@@ -353,9 +376,9 @@ function calculatePoints(key_pos, note_pos){
     const distance = Math.abs(key_pos.y - note_pos.y);
     
     // perfect hits are n% of the key height
-    const perfect = key_height - key_height * 0.80;
-    const excellent = key_height - key_height * 0.60;
-    const good = key_height - key_height * 0.30;
+    const perfect = key_height - key_height * 0.70;
+    const excellent = key_height - key_height * 0.40;
+    const good = key_height - key_height * 0.10;
     // bad is everything else
 
     console.log(distance);
@@ -396,6 +419,8 @@ function incrementStat(str){
 
 function resetCombo(){
     // reset the combo
+    missSound.currentTime = 0;
+    missSound.play();
     const combo_element = document.getElementById("combo");
     combo_element.innerHTML = 0;
 }

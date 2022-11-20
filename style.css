@@ -21,7 +21,7 @@ button {
 #side-panel {
     text-align: center;
     margin-left: 60%;
-    margin-top: 20%;
+    margin-top: 10%;
     height: 100%;
     background-color: #444;
 }
@@ -48,6 +48,13 @@ button {
     transition: all 50ms linear 0ms;
     filter: brightness(100%);
     transform: scale(1);
+
+    /* text */
+    font-size: 32pt;
+    text-align: center;
+    font-weight: bold;
+    line-height: 50px;
+    color: rgb(128, 128, 128);
 }
 
 .d {
@@ -64,7 +71,7 @@ button {
 }
 .k {
     left: 70%;
-    background-color: red;
+    background-color: rgb(255, 20, 20);
 }
 
 .note {
@@ -90,24 +97,34 @@ button {
 }
 
 #game-stats {
-    font-size: 16pt;
+    font-size: 20pt;
 }
-
 #hit-stats {
-    font-size: 16pt;
+    font-size: 20pt;
 }
 #perfect-stat {
-    color: rgb(20, 214, 20)
+    color: rgb(20, 214, 20);
 }
 #excellent-stat {
-    color: greenyellow
+    color: greenyellow;
 }
 #good-stat {
-    color: yellow
+    color: yellow;
 }
 #bad-stat {
-    color: orange
+    color: orange;
 }
 #misses-stat {
-    color: rgb(255, 46, 46)
+    color: rgb(254, 97, 97);
+}
+
+@media screen and (max-width: 1250px) and (min-height: 840px) {
+    #warning {
+        display: block;
+    }
+}
+@media screen and (min-width: 1250px) {
+    #warning {
+        display: none;
+    }
 }

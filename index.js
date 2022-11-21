@@ -24,6 +24,9 @@ let combo = 0;
 let maxAcc = 0;
 let currAcc = 0;
 
+let speed = (window.innerHeight / 1.4)*(1/1000);
+// px per ms
+
 // generic Note Class
 class Note{
     /*
@@ -368,6 +371,7 @@ function handleHit(key_pos, note_pos){
     document.getElementById("game-stats").style.fontSize = `${fontSize}pt`;
 }
 
+let i = 1;
 function calculatePoints(key_pos, note_pos){
     // calculate the score based on the distance between the note and the key
     const key_height = note_pos.height;
@@ -379,8 +383,8 @@ function calculatePoints(key_pos, note_pos){
     const good = key_height - key_height * 0.10;
     // bad is everything else
 
-    // negative means late, positive means early
-    console.log(key_pos.y - note_pos.y);
+    // negative means early, positive means late
+    console.log(`note ${i++}: ${(note_pos.y - key_pos.y) / speed}`);
 
     if(distance < perfect){
         incrementStat("perfect");

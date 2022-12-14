@@ -204,7 +204,7 @@ async function start(){
     removeKeyHints();
 
     // start the game
-    await sleep(1000);
+    await sleep(1000); 
     song.play();
     for(let mapNote of map){
         const id = mapNote[0];
@@ -306,23 +306,12 @@ function hitCheck(key, key_element){
         let note = notes[i];
         const note_pos = note.note.getBoundingClientRect();
 
-        // this cleans up old missed notes early!
-        if(isBelow(note_pos, key_pos)){
-            note.note.remove();
-            notes.splice(i, 1);
-
-            incrementStat("misses");
-            resetCombo();
-            updateAccuracy(0.0);
-            continue;
-        }
-
         // check if the note hit the key
         if(note.key != key){
             continue;
         }
 
-        if(isCollision(key_pos, note_pos)){
+        if(isInHitZone(key_pos, note_pos)){
             // remove all references to the note (can be garbage collected)
             note.note.remove();
             notes.splice(i, 1);
@@ -367,31 +356,32 @@ function handleHit(key_pos, note_pos){
     // add combo
     incrementStat("combo");
     // increase #game-stats font size
-    fontSize += 0.05;
+    fontSize += 0.10;
     document.getElementById("game-stats").style.fontSize = `${fontSize}pt`;
 }
 
 let i = 1;
 function calculatePoints(key_pos, note_pos){
     // calculate the score based on the distance between the note and the key
-    const key_height = note_pos.height;
+    const hit_zone = note_pos.height * 2;
     const distance = Math.abs(key_pos.y - note_pos.y);
     
-    // perfect hits are n% of the key height
-    const perfect = key_height - key_height * 0.50;
-    const excellent = key_height - key_height * 0.25;
-    const good = key_height - key_height * 0.10;
+    // perfect hits are n% of the hit_zone height
+    const perfect = hit_zone - hit_zone * 0.69; // haha
+    const excellent = hit_zone - hit_zone * 0.50;
+    const good = hit_zone - hit_zone * 0.20;
     // bad is everything else
 
     // negative means early, positive means late
     console.log(`note ${i++}: ${(note_pos.y - key_pos.y) / speed}`);
 
-    if(distance < perfect){
+    // tilted a bit into the player's favor
+    if(distance <= perfect){
         incrementStat("perfect");
         updateAccuracy(100.0);
         return 100;
     }
-    else if(distance < excellent){
+    else if(distance <= excellent){
         incrementStat("excellent");
         updateAccuracy(75.0);
         return 75;
@@ -473,9 +463,10 @@ function isOffScreen(rect){
     return rect.top >= window.innerHeight;
 }
 
-function isCollision(rect1, rect2){
-    return !(rect1.right < rect2.left || 
-        rect1.left > rect2.right || 
-        rect1.bottom < rect2.top || 
-        rect1.top > rect2.bottom);
+function isInHitZone(key, note){
+    // check if the note is within the hit zone
+    // hit zone is +100% of the key height including the key
+    const hit_zone = key.height << 1;
+    const distance = Math.abs(key.y - note.y);
+    return distance < hit_zone;
 }

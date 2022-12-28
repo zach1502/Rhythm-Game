@@ -198,6 +198,7 @@ function createChord(prevNote, key){
 
 function startBackgroundLoop(){
     setInterval(cleanNotes, 250);
+    setInterval(autoHit, 10);
 }
 
 function attachEventHandlers(){
@@ -358,6 +359,28 @@ function hitCheck(key, key_element){
 
             // add score
             handleHit(key_pos, note_pos);
+            hitSound.currentTime = 0;
+            hitSound.play();
+            return;
+        }
+    }
+}
+
+function autoHit(){
+    // for all notes, check if the key collides with the note
+    for(let i = 0; i < notes.length; i++){
+        // notes has their elements in the order of old to new
+        let note = notes[i];
+        const note_pos = note.note.getBoundingClientRect();
+
+        // check if the note will hit
+        if(Math.abs(note_pos.bottom - dkey.getBoundingClientRect().bottom) < 10.0){
+            // remove all references to the note (can be garbage collected)
+            note.note.remove();
+            notes.splice(i, 1);
+
+            // add score
+            handleHit(dkey.getBoundingClientRect(), note_pos);
             hitSound.currentTime = 0;
             hitSound.play();
             return;

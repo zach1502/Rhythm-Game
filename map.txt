@@ -142,10 +142,17 @@ note 27100 d
 note 27400 f
 
 note 27700 j
-note 27900 f 
-note 28200 k 
-note 28200 d
+note 27950 f 
+note 28250 k 
+note 28250 d
 
-// dfdk
+// build up
+// dddfdfdfd
+//note 28500 d
+//note 28700 d
+//note 28900 d
 
-// The Even Better Part
+
+
+
+// stay poppin' && sexy sax

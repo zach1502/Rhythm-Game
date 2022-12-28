@@ -198,7 +198,7 @@ function createChord(prevNote, key){
 
 function startBackgroundLoop(){
     setInterval(cleanNotes, 250);
-    setInterval(autoHit, 10);
+    setInterval(autoHit, 1);
 }
 
 function attachEventHandlers(){
@@ -374,7 +374,7 @@ function autoHit(){
         const note_pos = note.note.getBoundingClientRect();
 
         // check if the note will hit
-        if(Math.abs(note_pos.bottom - dkey.getBoundingClientRect().bottom) < 10.0){
+        if(Math.abs(note_pos.bottom - dkey.getBoundingClientRect().bottom) < 5.0){
             // remove all references to the note (can be garbage collected)
             note.note.remove();
             notes.splice(i, 1);

@@ -148,9 +148,50 @@ note 28250 d
 
 // build up
 // dddfdfdfd
-//note 28500 d
-//note 28700 d
-//note 28900 d
+note 28450 d
+note 28700 d
+note 28850 d
+note 29050 f
+note 29250 d
+note 29450 f
+note 29650 d
+note 29750 f
+
+// kkkkjkjkjk
+note 30000 k
+note 30200 k
+note 30450 k
+note 30600 k 
+note 30800 j 
+note 31000 k
+note 31200 j
+note 31400 k
+note 31500 j
+
+// ddddfdfdfd
+note 31800 d
+note 32000 d
+note 32250 d
+note 32400 d
+note 32600 f
+note 32800 d
+note 33000 f
+note 33200 d
+note 33300 f
+
+// kkkkjkjkjk
+note 33600 k
+note 33800 k
+note 34050 k
+note 34200 k
+note 34400 j
+note 34600 k
+note 34800 j
+note 35000 k
+note 35100 j
+
+// intro sax
+
 
 
 

@@ -17,6 +17,8 @@ let songVolumeSlider;
 let songVolumeOutput;
 let sfxVolumeSlider;
 let sfxVolumeOutput;
+let autoplayBox;
+let autoplayOutput;
 
 let map = [];
  
@@ -93,24 +95,35 @@ window.onload = function(){
         // initialize game
         attachEventHandlers();
         getKeys();
-        getSliders();
+        getOptions();
         loadSounds();
         startBackgroundLoop();
         loadMap();
     }
 }
 
-function getSliders(){
+function getOptions(){
     // get slider elements
     songVolumeSlider = document.getElementById("song-volume");
     songVolumeOutput = document.getElementById("song-volume-value");
     sfxVolumeSlider = document.getElementById("sfx-volume");
     sfxVolumeOutput = document.getElementById("sfx-volume-value");
+    autoplayBox = document.getElementById("autoplay-checkbox");
+    autoplayOutput = document.getElementById("autoplay-value");
 
     // set slider value
     songVolumeOutput.innerHTML = songVolumeSlider.value;
     sfxVolumeOutput.innerHTML = sfxVolumeSlider.value;
 
+    // capitalize first letter
+    let val = autoplayBox.checked;
+    val = val.toString();
+    val = val.charAt(0).toUpperCase() + val.slice(1);
+    autoplayOutput.innerHTML = val;
+
+
+
+    // attach listeners
     songVolumeSlider.oninput = function(){
         songVolumeOutput.innerHTML = this.value;
         song.volume = this.value / 100;
@@ -120,6 +133,14 @@ function getSliders(){
         sfxVolumeOutput.innerHTML = this.value;
         hitSound.volume = this.value / 400; // THESE SOUNDS ARE TOO LOUD
         missSound.volume = this.value / 400;
+    }
+
+    autoplayBox.oninput = function(){
+        // capitalize first letter
+        let val = this.checked;
+        val = val.toString();
+        val = val.charAt(0).toUpperCase() + val.slice(1);
+        autoplayOutput.innerHTML = val;
     }
 }
 
@@ -198,7 +219,6 @@ function createChord(prevNote, key){
 
 function startBackgroundLoop(){
     setInterval(cleanNotes, 250);
-    setInterval(autoHit, 1);
 }
 
 function attachEventHandlers(){
@@ -230,6 +250,11 @@ async function start(){
 
     // Remove Key Hints
     removeKeyHints();
+
+    // check if autoplay is checked
+    if(autoplayBox.checked){
+        setInterval(autoHit, 1);
+    }
 
     // start the game
     await sleep(1000); 

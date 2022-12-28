@@ -180,20 +180,52 @@ note 33200 d
 note 33300 f
 
 // kkkkjkjkjk
-note 33600 k
-note 33800 k
-note 34050 k
-note 34200 k
-note 34400 j
-note 34600 k
-note 34800 j
-note 35000 k
-note 35100 j
+note 33500 k
+note 33700 k
+note 33950 k
+note 34100 k
+note 34300 j
+note 34500 k
+note 34700 j
+note 34900 k
+note 35000 j
 
-// intro sax
+// // intro sax
+// mini jack
+note 35300 d
+note 35500 d
+note 35700 d
 
+// roll
+note 38000 k 
+note 38100 j
+note 38200 f 
+note 38300 d
 
+// split roll
+note 38400 j 
+note 38500 f 
+note 38600 k
 
+note 38700 d
+note 38800 j 
+note 38900 f 
+note 39000 k
+
+// split roll
+note 39100 f 
+note 39200 j 
+note 39300 d
+
+note 39400 k
+note 39500 f
+note 39600 j
+note 39700 d
+
+// roll
+note 39800 f 
+note 39900 j  
+note 40000 k  
 
 
 // stay poppin' && sexy sax

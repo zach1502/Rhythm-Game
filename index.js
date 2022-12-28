@@ -198,17 +198,6 @@ function createChord(prevNote, key){
 
 function startBackgroundLoop(){
     setInterval(cleanNotes, 250);
-    setInterval(function(){
-        for(let key in isHold){
-            if(isHold[key] != expectedHold[key]){
-                missSound.play();
-                expectedHold[key] = false;
-
-                resetCombo();
-                incrementStat("misses");
-            }
-        }
-    }, 100);
 }
 
 function attachEventHandlers(){
@@ -272,7 +261,6 @@ async function start(){
                 await sleep(time);
                 key = mapNote[2];
                 new Note(key);
-                expectedHold[key] = true;
                 break;
             default:
                 // do nothing
@@ -313,7 +301,6 @@ function cleanNotes(){
 }
 
 function keyDownHandler(e){
-    // console.log(`${e.key} pressed`);
     switch(e.key){
         case 'd':
             isHold['d'] = true;
@@ -491,7 +478,6 @@ function resetCombo(){
 
 // on key press
 function keyUpHandler(e){
-    // console.log(`${e.key} released`);
     switch(e.key){
         case 'd':
             setBrightness(dkey, 100);

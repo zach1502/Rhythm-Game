@@ -132,4 +132,20 @@ note 25150 f
 note 25450 j
 note 25450 k
 
+// even more notes
+note 26100 f 
+note 26300 j 
+note 26600 k 
+
+note 26900 f
+note 27100 d 
+note 27400 f
+
+note 27700 j
+note 27900 f 
+note 28200 k 
+note 28200 d
+
+// dfdk
+
 // The Even Better Part

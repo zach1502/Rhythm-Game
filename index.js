@@ -322,15 +322,6 @@ function hitCheck(key, key_element){
             hitSound.play();
             return;
         }
-        else{
-            note.note.remove();
-            notes.splice(i, 1);
-
-            incrementStat("misses");
-            resetCombo();
-            updateAccuracy(0.0);
-            return;
-        }
     }
 }
 
@@ -353,11 +344,18 @@ function handleHit(key_pos, note_pos){
     const points = calculatePoints(key_pos, note_pos);
     updateScore(points);
 
-    // add combo
-    incrementStat("combo");
-    // increase #game-stats font size
-    fontSize += 0.10;
-    document.getElementById("game-stats").style.fontSize = `${fontSize}pt`;
+    if(points > 0){
+        // add combo
+        incrementStat("combo");
+        // increase #game-stats font size
+        fontSize += 0.10;
+        document.getElementById("game-stats").style.fontSize = `${fontSize}pt`;
+    }
+    else{
+        // reset combo
+        incrementStat("misses");
+        resetCombo();
+    }
 }
 
 let i = 1;
@@ -367,34 +365,57 @@ function calculatePoints(key_pos, note_pos){
     const distance = Math.abs(key_pos.y - note_pos.y);
     
     // perfect hits are n% of the hit_zone height
-    const perfect = hit_zone - hit_zone * 0.69; // haha
+    const perfect = hit_zone - hit_zone * 0.70;
     const excellent = hit_zone - hit_zone * 0.50;
-    const good = hit_zone - hit_zone * 0.20;
-    // bad is everything else
+    const good = hit_zone - hit_zone * 0.30;
+    const bad = hit_zone - hit_zone * 0.10;
+    // miss is everything else
 
     // negative means early, positive means late
-    console.log(`note ${i++}: ${(note_pos.y - key_pos.y) / speed}`);
+    let timing = (note_pos.y - key_pos.y) / speed;
+    console.log(`note ${i++}: ${timing}`);
+
+    // update show timing in #hit_timing
+    const hit_timing = document.getElementById("hit-timing");
+
+    // add a + if the timing is positive
+    hit_timing.innerHTML = `${(timing>0)?"+":""}${timing.toFixed(2)} ms`;
 
     // tilted a bit into the player's favor
     if(distance <= perfect){
+        hit_timing.className = "";
+        hit_timing.classList.add("perfect-colour");
         incrementStat("perfect");
         updateAccuracy(100.0);
         return 100;
     }
     else if(distance <= excellent){
+        hit_timing.className = "";
+        hit_timing.classList.add("excellent-colour");
         incrementStat("excellent");
         updateAccuracy(75.0);
         return 75;
     }
     else if(distance < good){
+        hit_timing.className = "";
+        hit_timing.classList.add("good-colour");
         incrementStat("good");
         updateAccuracy(50.0);
         return 50;
     }
-    else{
+    else if(distance < bad){
+        hit_timing.className = "";
+        hit_timing.classList.add("bad-colour");
         incrementStat("bad");
         updateAccuracy(25.0);
         return 25;
+    }
+    else{
+        hit_timing.className = "";
+        hit_timing.classList.add("miss-colour");
+        incrementStat("misses");
+        updateAccuracy(0.0);
+        return 0;
     }
 }
 
@@ -465,8 +486,8 @@ function isOffScreen(rect){
 
 function isInHitZone(key, note){
     // check if the note is within the hit zone
-    // hit zone is +100% of the key height including the key
-    const hit_zone = key.height << 1;
+    // hit zone is +200% of the key height including the key
+    const hit_zone = key.height << 2;
     const distance = Math.abs(key.y - note.y);
     return distance < hit_zone;
 }

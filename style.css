@@ -62,19 +62,23 @@ h1{
 }
 
 .d {
-    left: 10%;
+    left: 20%;
+    margin-left: -75px;
     background-color: purple;
 }
 .f {
-    left: 30%;
+    left: 40%;
+    margin-left: -75px;
     background-color: cyan;
 }
 .j {
-    left: 50%;
+    left: 60%;
+    margin-left: -75px;
     background-color: greenyellow;
 }
 .k {
-    left: 70%;
+    left: 80%;
+    margin-left: -75px;
     background-color: rgb(255, 50, 50);
 }
 
@@ -120,6 +124,37 @@ h1{
 }
 #misses-stat {
     color: rgb(254, 97, 97);
+}
+
+.perfect-colour {
+    color: rgb(20, 214, 20);
+}
+.excellent-colour {
+    color: greenyellow;
+}
+.good-colour {
+    color: yellow;
+}
+.bad-colour {
+    color: orange;
+}
+.miss-colour {
+    color: rgb(254, 97, 97);
+}
+
+#hit-timing {
+    position: absolute;
+    width: 300px;
+    height: 100px;
+    text-align: center;
+    font-size: 32pt;
+
+    transition: all 50ms linear 0ms;
+    top: 60%;
+    left: 50%;
+    margin-left: -150px;
+
+    overflow: visible;
 }
 
 @media screen and (max-width: 1250px) and (min-height: 840px) {

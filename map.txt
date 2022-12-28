@@ -1,135 +1,135 @@
 // Music used under Fair Dealing for Educational and Private Study purposes
-0 d
-0 f
+note 0 d
+note 0 f
 
-750 j
-750 k
+note 750 j
+note 750 k
 
-1600 d
-1675 f
-1800 k
+note 1600 d
+note 1675 f
+note 1800 k
 
-2100 j
-2400 f
-2700 d
-3000 f
-3300 j
-3600 k
+note 2100 j
+note 2400 f
+note 2700 d
+note 3000 f
+note 3300 j
+note 3600 k
 
-4200 d
-4200 f
+note 4200 d
+note 4200 f
 
-4850 d
-5150 f
-5350 j
+note 4850 d
+note 5150 f
+note 5350 j
 
-5650 k
-5950 j
-6200 f
+note 5650 k
+note 5950 j
+note 6200 f
 
-6500 k
-6800 j
+note 6500 k
+note 6800 j
 
 // repeated below
-7100 d
-7100 f
+note 7100 d
+note 7100 f
 
-7850 j
-7850 k
+note 7850 j
+note 7850 k
 
-8700 d
-8775 f
-8900 k
+note 8700 d
+note 8775 f
+note 8900 k
 
-9200 j
-9500 f
-9800 d
-10100 f
-10400 j
-10700 k
+note 9200 j
+note 9500 f
+note 9800 d
+note 10100 f
+note 10400 j
+note 10700 k
 
-11300 d
-11300 f
+note 11300 d
+note 11300 f
 
-11950 d
-12250 f
-12450 j
+note 11950 d
+note 12250 f
+note 12450 j
 
-12750 k
-13050 j
-13300 f
+note 12750 k
+note 13050 j
+note 13300 f
 
-13600 k
-13900 j
+note 13600 k
+note 13900 j
 
 // JOOOOOO JOOOOO!
-14200 d
-14200 f
-14200 k
+note 14200 d
+note 14200 f
+note 14200 k
 
-14800 d
-14800 j
-14800 k
+note 14800 d
+note 14800 j
+note 14800 k
 
 // Some notes
-15800 d
-15875 f
-15950 k
+note 15800 d
+note 15875 f
+note 15950 k
 
-16250 j
-16500 f
-16800 d
-17100 f
-17400 j 
+note 16250 j
+note 16500 f
+note 16800 d
+note 17100 f
+note 17400 j 
 
 // GOLDEN WIND
-17700 d
-17700 k
+note 17700 d
+note 17700 k
 
-18100 f
+note 18100 f
 
-18400 j
-18400 k
+note 18400 j
+note 18400 k
 
 // Some more notes
-18950 d
-19250 f 
-19400 j 
-19800 k
+note 18950 d
+note 19250 f 
+note 19400 j 
+note 19800 k
 
-20100 j
-20300 f
+note 20100 j
+note 20300 f
 
-20700 k
-20950 j 
+note 20700 k
+note 20950 j 
 
 // JOOOOOO JOOOOO!
-21250 d
-21250 f
-21250 k
+note 21250 d
+note 21250 f
+note 21250 k
 
-21850 d
-21850 j
-21850 k
+note 21850 d
+note 21850 j
+note 21850 k
 
 // Some notes
-22850 d
-22925 f
-23000 k
+note 22850 d
+note 22925 f
+note 23000 k
 
-23300 j
-23550 f
-23850 d
-24150 f
-24450 j 
+note 23300 j
+note 23550 f
+note 23850 d
+note 24150 f
+note 24450 j 
 
 // GOLDEN WIND
-24750 d
-24750 k
+note 24750 d
+note 24750 k
 
-25150 f
+note 25150 f
 
-25450 j
-25450 k
+note 25450 j
+note 25450 k
 
 // The Even Better Part

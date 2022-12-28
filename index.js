@@ -27,6 +27,20 @@ let currAcc = 0;
 let speed = (window.innerHeight / 1.4)*(1/1000);
 // px per ms
 
+let isHold = {
+    'd': false,
+    'f': false,
+    'j': false,
+    'k': false
+};
+
+let expectedHold = {
+    'd': false,
+    'f': false,
+    'j': false,
+    'k': false
+};
+
 // generic Note Class
 class Note{
     /*
@@ -134,20 +148,33 @@ function loadMap(){
 
         const tokens = line.split(" ");
 
-        let time = parseInt(tokens[0]);
-        let key = tokens[1];
+        let type = tokens[0];
+        let time = parseInt(tokens[1]);
+        let key = tokens[2];
 
-        // wait
         let wait = time - prev_time;
-        if(wait === 0){
-            let prevNote = map.pop();
-            let newNote = createChord(prevNote, key);
-            newNote[0] = 1; // chord
-
-            map.push(newNote);
-        }
-        else{
-            map.push([0, wait, key]);
+        switch(type){
+            case "note":
+                // auto create chord
+                if(wait === 0){
+                    let prevNote = map.pop();
+                    let newNote = createChord(prevNote, key);
+                    newNote[0] = 1; // chord
+        
+                    map.push(newNote);
+                }
+                else{
+                    map.push([0, wait, key]);
+                }
+                break;
+            case "hold":
+                let length = tokens[3];
+                // hold notes are just regular notes but a function will check every so often if the key is still held
+                map.push([2, wait, key, length]);
+                break;
+            default:
+                console.log("invalid type");
+                break;
         }
 
         prev_time = time;
@@ -171,6 +198,17 @@ function createChord(prevNote, key){
 
 function startBackgroundLoop(){
     setInterval(cleanNotes, 250);
+    setInterval(function(){
+        for(let key in isHold){
+            if(isHold[key] != expectedHold[key]){
+                missSound.play();
+                expectedHold[key] = false;
+
+                resetCombo();
+                incrementStat("misses");
+            }
+        }
+    }, 100);
 }
 
 function attachEventHandlers(){
@@ -209,11 +247,12 @@ async function start(){
     for(let mapNote of map){
         const id = mapNote[0];
         const time = mapNote[1];
+        let key = "";
 
         switch(id){
             case 0:
                 // regular note
-                const key = mapNote[2];
+                key = mapNote[2];
                 await sleep(time);
                 new Note(key);
                 break;
@@ -222,9 +261,18 @@ async function start(){
                 // mapNote[2] to mapNote[n] are keys
                 await sleep(time);
                 for(let i = 2; i < mapNote.length; i++){
-                    const key = mapNote[i];
+                    key = mapNote[i];
                     new Note(key);
                 }
+                break;
+            case 2:
+                // hold
+                // mapNote[2] is the length of hold
+                // mapNote[3] is the key
+                await sleep(time);
+                key = mapNote[2];
+                new Note(key);
+                expectedHold[key] = true;
                 break;
             default:
                 // do nothing
@@ -268,21 +316,25 @@ function keyDownHandler(e){
     // console.log(`${e.key} pressed`);
     switch(e.key){
         case 'd':
+            isHold['d'] = true;
             setBrightness(dkey, 50);
             popElement(dkey, 1.1);
             hitCheck(e.key, dkey);
             break;
         case 'f':
+            isHold['f'] = true;
             setBrightness(fkey, 50);
             popElement(fkey, 1.1);
             hitCheck(e.key, fkey);
             break;
         case 'j':
+            isHold['j'] = true;
             setBrightness(jkey, 50);
             popElement(jkey, 1.1);
             hitCheck(e.key, jkey);
             break;
         case 'k':
+            isHold['k'] = true;
             setBrightness(kkey, 50);
             popElement(kkey, 1.1);
             hitCheck(e.key, kkey);
@@ -293,6 +345,7 @@ function keyDownHandler(e){
             new Note(keys[Math.floor(Math.random() * keys.length)]);
             break;
         default:
+
             break;
     }
 }
@@ -363,8 +416,7 @@ function calculatePoints(key_pos, note_pos){
     // calculate the score based on the distance between the note and the key
     const hit_zone = note_pos.height * 2;
     const distance = Math.abs(key_pos.y - note_pos.y);
-    
-    // perfect hits are n% of the hit_zone height
+
     const perfect = hit_zone - hit_zone * 0.70;
     const excellent = hit_zone - hit_zone * 0.50;
     const good = hit_zone - hit_zone * 0.30;
@@ -375,10 +427,8 @@ function calculatePoints(key_pos, note_pos){
     let timing = (note_pos.y - key_pos.y) / speed;
     console.log(`note ${i++}: ${timing}`);
 
-    // update show timing in #hit_timing
+    // update timing text
     const hit_timing = document.getElementById("hit-timing");
-
-    // add a + if the timing is positive
     hit_timing.innerHTML = `${(timing>0)?"+":""}${timing.toFixed(2)} ms`;
 
     // tilted a bit into the player's favor
@@ -446,18 +496,22 @@ function keyUpHandler(e){
         case 'd':
             setBrightness(dkey, 100);
             popElement(dkey, 1.0);
+            isHold['d'] = false;
             break;
         case 'f':
             setBrightness(fkey, 100);
             popElement(fkey, 1.0);
+            isHold['f'] = false;
             break;
         case 'j':
             setBrightness(jkey, 100);
             popElement(jkey, 1.0);
+            isHold['j'] = false;
             break;
         case 'k':
             setBrightness(kkey, 100);
             popElement(kkey, 1.0);
+            isHold['k'] = false;
             break;
         default:
             break;

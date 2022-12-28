@@ -58,7 +58,7 @@ h1{
     text-align: center;
     font-weight: bold;
     line-height: 50px;
-    color: rgb(128, 128, 128);
+    color: rgb(148, 148, 148);
 }
 
 .d {
@@ -149,12 +149,10 @@ h1{
     text-align: center;
     font-size: 32pt;
 
-    transition: all 50ms linear 0ms;
+    transition: all 100ms ease-out 0ms;
     top: 60%;
     left: 50%;
     margin-left: -150px;
-
-    overflow: visible;
 }
 
 @media screen and (max-width: 1250px) and (min-height: 840px) {

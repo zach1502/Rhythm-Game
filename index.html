@@ -6,7 +6,7 @@
         <meta name="description" content="A rhythm game for you to play!">
         <meta name="keywords" content="project, co-op, build, site, zach, self">
         <meta name="author" content="Zachary Chan">
-        <link rel="icon" type="image/x-icon" href="./icon.ico">
+        <!-- <link rel="icon" type="image/x-icon" href="./icon.ico"> -->
         <link rel="stylesheet" href="style.css">
         <title>Zachary Chan | Rhythm Game</title>
     </head>
@@ -72,11 +72,14 @@
                         Autoplay: <div id="autoplay-value">False</div>
                         <input type="checkbox" id="autoplay-checkbox">
                     </div>
+                    <div id="vfx">
+                        Disable Visual Effects: <div id="vfx-value">False</div>
+                        <input type="checkbox" id="vfx-checkbox">
+                    </div>
                 </div>
             </div>
         </div>
         <iframe title="" id="map" src="./map.txt" style="display: none;"></iframe>
-        <script src="index.js" defer></script>
-        <script src="https://unpkg.com/wavesurfer.js"></script>
+        <script src="index.js" defer async></script>
     </body>
 </html>

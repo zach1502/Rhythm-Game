@@ -1,4 +1,7 @@
 // Music used under Fair Dealing for Educational and Private Study purposes
+// meta data
+bpm 135
+flash
 note 0 d
 note 0 f
 
@@ -8,7 +11,6 @@ note 750 k
 note 1600 d
 note 1675 f
 note 1800 k
-
 note 2100 j
 note 2400 f
 note 2700 d
@@ -18,6 +20,7 @@ note 3600 k
 
 note 4200 d
 note 4200 f
+flash
 
 note 4850 d
 note 5150 f
@@ -229,3 +232,6 @@ note 40000 k
 
 
 // stay poppin' && sexy sax
+note 41600 f 
+note 41700 d
+note 41800 d

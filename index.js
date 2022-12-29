@@ -19,12 +19,17 @@ let sfxVolumeSlider;
 let sfxVolumeOutput;
 let autoplayBox;
 let autoplayOutput;
+let vfxBox;
+let vfxOutput;
 
 let map = [];
  
 let combo = 0;
 let maxAcc = 0;
 let currAcc = 0;
+
+// Metadata
+let bpm = -1;
 
 let speed = (window.innerHeight / 1.4)*(1/1000);
 // px per ms
@@ -48,7 +53,7 @@ class Note{
     /*
      * @param {string} key - key to check
      */
-    constructor(key){
+    constructor(key, bonus = false){
         this.key = key;
 
         // create the note
@@ -80,6 +85,7 @@ class Note{
 
         // apply animation
         this.note.classList.add("note"); // in css
+        if(bonus) this.note.classList.add("bonus");
         notes.push(this);
     }
 }
@@ -110,6 +116,8 @@ function getOptions(){
     sfxVolumeOutput = document.getElementById("sfx-volume-value");
     autoplayBox = document.getElementById("autoplay-checkbox");
     autoplayOutput = document.getElementById("autoplay-value");
+    vfxBox = document.getElementById("vfx-checkbox");
+    vfxOutput = document.getElementById("vfx-value");
 
     // set slider value
     songVolumeOutput.innerHTML = songVolumeSlider.value;
@@ -120,6 +128,11 @@ function getOptions(){
     val = val.toString();
     val = val.charAt(0).toUpperCase() + val.slice(1);
     autoplayOutput.innerHTML = val;
+
+    val = vfxBox.checked;
+    val = val.toString();
+    val = val.charAt(0).toUpperCase() + val.slice(1);
+    vfxOutput.innerHTML = val;
 
 
 
@@ -141,6 +154,14 @@ function getOptions(){
         val = val.toString();
         val = val.charAt(0).toUpperCase() + val.slice(1);
         autoplayOutput.innerHTML = val;
+    }
+
+    vfxBox.oninput = function(){
+        // capitalize first letter
+        let val = this.checked;
+        val = val.toString();
+        val = val.charAt(0).toUpperCase() + val.slice(1);
+        vfxOutput.innerHTML = val;
     }
 }
 
@@ -193,6 +214,15 @@ function loadMap(){
                 // hold notes are just regular notes but a function will check every so often if the key is still held
                 map.push([2, wait, key, length]);
                 break;
+            case "effect":
+                map.push([4]);
+                continue; // don't want to effect timing
+            case "flash":
+                map.push([5]);
+                continue; 
+            case "bpm":
+                bpm = parseInt(tokens[1]);
+                continue;
             default:
                 console.log("invalid type");
                 break;
@@ -244,6 +274,25 @@ function loadSounds(){
     hitSound.volume = sfxVolumeSlider.value / 400;
 }
 
+let flashID = -1;
+function flash(){
+
+    if(flashID != -1) {
+        clearInterval(flashID);
+        flashID = -1;
+        return;
+    }
+
+    setTimeout(function(){
+        flashID = setInterval(function(){
+            document.getElementById("game-area").style.backgroundColor = "#555";
+            setTimeout(function(){
+                document.getElementById("game-area").style.backgroundColor = "#333";
+            }, 100);
+        }, ((60 * 1000)/bpm));
+    }, 1200);
+}
+
 async function start(){
     // hide start button, show stats
     document.getElementById("play").style.visibility = "hidden";
@@ -259,6 +308,7 @@ async function start(){
     // start the game
     await sleep(1000); 
     song.play();
+    let vfxOn = false;
     for(let mapNote of map){
         const id = mapNote[0];
         const time = mapNote[1];
@@ -269,7 +319,7 @@ async function start(){
                 // regular note
                 key = mapNote[2];
                 await sleep(time);
-                new Note(key);
+                new Note(key, vfxOn && !vfxBox.checked);
                 break;
             case 1:
                 // chord
@@ -277,7 +327,7 @@ async function start(){
                 await sleep(time);
                 for(let i = 2; i < mapNote.length; i++){
                     key = mapNote[i];
-                    new Note(key);
+                    new Note(key, vfxOn && !vfxBox.checked);
                 }
                 break;
             case 2:
@@ -287,6 +337,18 @@ async function start(){
                 await sleep(time);
                 key = mapNote[2];
                 new Note(key);
+                break;
+            case 3:
+                // hold chord
+                break;
+            case 4:
+                // toggle rainbow notes
+                vfxOn = !vfxOn;
+                break;
+            case 5:
+                // toggle game area colour
+                if(vfxBox.checked) continue;
+                flash();
                 break;
             default:
                 // do nothing

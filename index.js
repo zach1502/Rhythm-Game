@@ -13,6 +13,15 @@ let song;
 let hitSound;
 let missSound;
 
+// Needed Document Elements
+let gameAreaElement;
+let scoreElement;
+let accuracyElement;
+let comboElement;
+let hitTimingElement;
+
+
+// Options
 let songVolumeSlider;
 let songVolumeOutput;
 let sfxVolumeSlider;
@@ -21,9 +30,13 @@ let autoplayBox;
 let autoplayOutput;
 let vfxBox;
 let vfxOutput;
+let displayHitTimingBox;
+let displayHitTimingOutput;
 
+// the map
 let map = [];
  
+// game state
 let combo = 0;
 let maxAcc = 0;
 let currAcc = 0;
@@ -58,7 +71,7 @@ class Note{
 
         // create the note
         this.note = document.createElement("div");
-        document.getElementById("game-area").appendChild(this.note);
+        gameAreaElement.appendChild(this.note);
         this.note.classList.add(key);
 
         // move note to the same position as the key
@@ -99,13 +112,25 @@ window.onload = function(){
     // check for readyState
     if(document.readyState == "complete"){
         // initialize game
+
+        // lauchModal();
+
         attachEventHandlers();
         getKeys();
+        getElements();
         getOptions();
         loadSounds();
         startBackgroundLoop();
         loadMap();
     }
+}
+
+function getElements(){
+    gameAreaElement = document.getElementById("game-area");
+    scoreElement = document.getElementById("score");
+    accuracyElement = document.getElementById("accuracy");
+    comboElement = document.getElementById("combo");
+    hitTimingElement = document.getElementById("hit-timing");
 }
 
 function getOptions(){
@@ -118,6 +143,9 @@ function getOptions(){
     autoplayOutput = document.getElementById("autoplay-value");
     vfxBox = document.getElementById("vfx-checkbox");
     vfxOutput = document.getElementById("vfx-value");
+    displayHitTimingBox = document.getElementById("timing-display-checkbox");
+    displayHitTimingOutput = document.getElementById("timing-display-value");
+
 
     // set slider value
     songVolumeOutput.innerHTML = songVolumeSlider.value;
@@ -134,7 +162,10 @@ function getOptions(){
     val = val.charAt(0).toUpperCase() + val.slice(1);
     vfxOutput.innerHTML = val;
 
-
+    val = displayHitTimingBox.checked;
+    val = val.toString();
+    val = val.charAt(0).toUpperCase() + val.slice(1);
+    displayHitTimingOutput.innerHTML = val;
 
     // attach listeners
     songVolumeSlider.oninput = function(){
@@ -162,6 +193,14 @@ function getOptions(){
         val = val.toString();
         val = val.charAt(0).toUpperCase() + val.slice(1);
         vfxOutput.innerHTML = val;
+    }
+
+    displayHitTimingBox.oninput = function(){
+        // capitalize first letter
+        let val = this.checked;
+        val = val.toString();
+        val = val.charAt(0).toUpperCase() + val.slice(1);
+        displayHitTimingOutput.innerHTML = val;
     }
 }
 
@@ -218,7 +257,7 @@ function loadMap(){
                 map.push([4]);
                 continue; // don't want to effect timing
             case "flash":
-                map.push([5]);
+                map.push([5, tokens[1], tokens[2]]);
                 continue; 
             case "bpm":
                 bpm = parseInt(tokens[1]);
@@ -272,25 +311,6 @@ function loadSounds(){
     song.volume = songVolumeSlider.value / 100;
     missSound.volume = sfxVolumeSlider.value / 400;
     hitSound.volume = sfxVolumeSlider.value / 400;
-}
-
-let flashID = -1;
-function flash(){
-
-    if(flashID != -1) {
-        clearInterval(flashID);
-        flashID = -1;
-        return;
-    }
-
-    setTimeout(function(){
-        flashID = setInterval(function(){
-            document.getElementById("game-area").style.backgroundColor = "#555";
-            setTimeout(function(){
-                document.getElementById("game-area").style.backgroundColor = "#333";
-            }, 100);
-        }, ((60 * 1000)/bpm));
-    }, 1200);
 }
 
 async function start(){
@@ -348,7 +368,7 @@ async function start(){
             case 5:
                 // toggle game area colour
                 if(vfxBox.checked) continue;
-                flash();
+                flash(mapNote[1], mapNote[2]);
                 break;
             default:
                 // do nothing
@@ -362,6 +382,26 @@ function removeKeyHints(){
     document.getElementsByClassName("f")[0].innerHTML = "";
     document.getElementsByClassName("j")[0].innerHTML = "";
     document.getElementsByClassName("k")[0].innerHTML = "";
+}
+
+
+let flashID = -1;
+function flash(reciprecalSpeed = 1.0, delayInitialFlash = 1200){
+
+    if(flashID != -1) {
+        clearInterval(flashID);
+        flashID = -1;
+        return;
+    }
+
+    setTimeout(function(){
+        flashID = setInterval(function(){
+            gameAreaElement.style.backgroundColor = "#555";
+            setTimeout(function(){
+                gameAreaElement.style.backgroundColor = "#333";
+            }, 100);
+        }, ((60 * 1000)/bpm) * reciprecalSpeed);
+    }, delayInitialFlash);
 }
 
 function cleanNotes(){
@@ -484,8 +524,7 @@ function updateAccuracy(accVal){
     const acc = currAcc / maxAcc;
     
     // update accuracy text
-    const accElement = document.getElementById("accuracy");
-    accElement.innerHTML = `${(acc * 100).toFixed(2)}`;
+    accuracyElement.innerHTML = `${(acc * 100).toFixed(2)}`;
 }
 
 let fontSize = 16;
@@ -524,42 +563,43 @@ function calculatePoints(key_pos, note_pos){
     let timing = (note_pos.y - key_pos.y) / speed;
     console.log(`note ${i++}: ${timing}`);
 
-    // update timing text
-    const hit_timing = document.getElementById("hit-timing");
-    hit_timing.innerHTML = `${(timing>0)?"+":""}${timing.toFixed(2)} ms`;
+    // check if hit timing is enabled
+    if(document.getElementById("timing-display-checkbox").checked){
+        hitTimingElement.innerHTML = `${(timing>0)?"+":""}${timing.toFixed(2)} ms`;
+    }
 
     // tilted a bit into the player's favor
     if(distance <= perfect){
-        hit_timing.className = "";
-        hit_timing.classList.add("perfect-colour");
+        hitTimingElement.className = "";
+        hitTimingElement.classList.add("perfect-colour");
         incrementStat("perfect");
         updateAccuracy(100.0);
         return 100;
     }
     else if(distance <= excellent){
-        hit_timing.className = "";
-        hit_timing.classList.add("excellent-colour");
+        hitTimingElement.className = "";
+        hitTimingElement.classList.add("excellent-colour");
         incrementStat("excellent");
         updateAccuracy(75.0);
         return 75;
     }
     else if(distance < good){
-        hit_timing.className = "";
-        hit_timing.classList.add("good-colour");
+        hitTimingElement.className = "";
+        hitTimingElement.classList.add("good-colour");
         incrementStat("good");
         updateAccuracy(50.0);
         return 50;
     }
     else if(distance < bad){
-        hit_timing.className = "";
-        hit_timing.classList.add("bad-colour");
+        hitTimingElement.className = "";
+        hitTimingElement.classList.add("bad-colour");
         incrementStat("bad");
         updateAccuracy(25.0);
         return 25;
     }
     else{
-        hit_timing.className = "";
-        hit_timing.classList.add("miss-colour");
+        hitTimingElement.className = "";
+        hitTimingElement.classList.add("miss-colour");
         incrementStat("misses");
         updateAccuracy(0.0);
         return 0;
@@ -568,8 +608,7 @@ function calculatePoints(key_pos, note_pos){
 
 function updateScore(score){
     // update the score
-    const score_element = document.getElementById("score");
-    score_element.innerHTML = parseInt(score_element.innerHTML) + score;
+    scoreElement.innerHTML = parseInt(scoreElement.innerHTML) + score;
 }
 
 function incrementStat(str){
@@ -582,8 +621,7 @@ function resetCombo(){
     // reset the combo
     missSound.currentTime = 0;
     missSound.play();
-    const combo_element = document.getElementById("combo");
-    combo_element.innerHTML = 0;
+    comboElement.innerHTML = 0;
 }
 
 // on key press

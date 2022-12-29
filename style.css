@@ -38,7 +38,7 @@ h1{
     top: 0;
     left: 0;
     z-index: 1;
-    transition: all 400ms linear 0ms;
+    transition: all 600ms linear 0ms;
 }
 
 .d, .f, .j, .k {

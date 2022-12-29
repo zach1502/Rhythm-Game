@@ -194,6 +194,7 @@ note 34900 k
 note 35000 j
 
 // // intro sax
+// single stream
 // mini jack
 note 35300 d
 note 35500 d
@@ -231,8 +232,168 @@ note 39900 j
 note 40000 k  
 
 
-// stay poppin' && sexy sax
+// stay poppin'
 note 41600 f 
 note 41700 d
 note 41900 d
-note 42000 d
+note 42100 d
+
+// Sexy sax ACTIVATE!!!!!!!
+// effect
+flash 1 375
+
+// single stream
+note 42500 k 
+note 42600 j 
+note 42700 f 
+
+note 43000 j 
+note 43100 f 
+note 43200 d
+
+note 43300 f
+note 43400 d
+note 43500 k
+note 43600 j
+
+note 43900 f 
+note 44000 d 
+note 44100 k 
+note 44200 j
+
+
+// sax pierce
+note 44400 j 
+note 44500 f
+note 44600 d
+note 44700 k
+
+// rolls
+note 45100 d 
+note 45100 j
+
+note 45200 k
+note 45300 f
+note 45400 d
+note 45500 f
+
+// jack-trill
+note 45700 d 
+note 45900 d
+note 46150 d
+note 46300 d
+
+note 46500 f
+note 46700 d 
+note 46900 f
+note 47100 d
+note 47200 f
+
+note 47400 j
+note 47450 f
+note 47500 j 
+note 47550 f 
+
+// jjjjkjkjk 
+note 47700 j
+note 47900 j 
+note 48150 j
+note 48300 j
+
+note 48500 k
+note 48700 j
+note 48900 k
+note 49100 j
+note 49200 k
+
+// ddddfdfdf
+note 49400 d
+note 49600 d
+note 49850 d
+note 50000 d
+
+note 50200 f
+note 50400 d
+note 50600 f
+note 50800 d
+note 50900 f
+
+flash
+flash 0.5 0
+
+// kkkkjkjkjk
+note 51100 k
+note 51300 k
+note 51550 k
+note 51700 k
+
+note 51900 j
+note 52100 k
+note 52300 j
+note 52500 k
+note 52600 j
+
+// ddddfdfdf
+// jjjjkjkjk
+note 52800 d
+note 52800 j 
+
+note 53000 d
+note 53000 j
+
+note 53250 d
+note 53250 j
+
+note 53400 d
+note 53400 j
+
+note 53600 f
+note 53600 k
+
+note 53800 d
+note 53800 j
+
+note 54000 f
+note 54000 k
+
+note 54200 d
+note 54200 j
+
+note 54300 f
+note 54300 k
+
+// ffffdfdfd
+// kkkkjkjkj
+note 54500 f
+note 54500 k
+
+note 54700 f
+note 54700 k
+
+note 54950 f
+note 54950 k
+
+note 55100 f
+note 55100 k
+
+note 55300 d
+note 55300 j
+
+note 55500 f
+note 55500 k
+
+note 55700 d
+note 55700 j
+
+note 55900 f
+note 55900 k
+
+note 56000 d
+note 56000 j
+flash
+
+note 57200 d
+note 57200 f
+note 57200 j
+note 57200 k
+// end

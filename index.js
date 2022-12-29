@@ -20,7 +20,6 @@ let accuracyElement;
 let comboElement;
 let hitTimingElement;
 
-
 // Options
 let songVolumeSlider;
 let songVolumeOutput;
@@ -44,8 +43,9 @@ let currAcc = 0;
 // Metadata
 let bpm = -1;
 
+// data to run
+let flashID = -1;
 let speed = (window.innerHeight / 1.4)*(1/1000);
-// px per ms
 
 let isHold = {
     'd': false,
@@ -262,6 +262,9 @@ function loadMap(){
             case "bpm":
                 bpm = parseInt(tokens[1]);
                 continue;
+            case "end":
+                map.push([99]);
+                break;
             default:
                 console.log("invalid type");
                 break;
@@ -315,7 +318,7 @@ function loadSounds(){
 
 async function start(){
     // hide start button, show stats
-    document.getElementById("play").style.visibility = "hidden";
+    document.getElementById("play").style.display = "none";
 
     // Remove Key Hints
     removeKeyHints();
@@ -384,8 +387,6 @@ function removeKeyHints(){
     document.getElementsByClassName("k")[0].innerHTML = "";
 }
 
-
-let flashID = -1;
 function flash(reciprecalSpeed = 1.0, delayInitialFlash = 1200){
 
     if(flashID != -1) {

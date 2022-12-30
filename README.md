@@ -68,3 +68,12 @@ Nothing special about them, except that they're rainbow.
 
 This will signal the end of the song.
 An applause will play.
+
+## Credits
+Hit and Miss Sounds are from Osu!
+
+Demo Song is Il Vento d'Oro by Yugo Kanno
+
+Applause Sound is from https://www.youtube.com/watch?v=DpQpf71sY6I
+
+Assets used under Fair Dealing for Educational and Private Study purposes

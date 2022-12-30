@@ -9,6 +9,7 @@ let kkey;
 let notes = []; // list of notes on screen
 
 // Audio
+const songFile = "Giorno's theme.mp3";
 let song;
 let hitSound;
 let missSound;
@@ -143,6 +144,7 @@ function launchModal(){
         }
     });
     window.addEventListener('click', windowOnClick);
+    toggleModal();
 }
 
 function getElements(){
@@ -163,8 +165,6 @@ function getOptions(){
     autoplayBox = document.getElementById("autoplay-checkbox");
     vfxBox = document.getElementById("vfx-checkbox");
     displayHitTimingBox = document.getElementById("timing-display-checkbox");
-
-
 
     // set slider value
     songVolumeOutput.innerHTML = songVolumeSlider.value;
@@ -298,7 +298,7 @@ function getKeys(){
 }
 function loadSounds(){
     // load song
-    song = new Audio("Giorno's theme.mp3");
+    song = new Audio(songFile);
     hitSound = new Audio("hit.wav");
     missSound = new Audio("miss.wav");
     applauseSound = new Audio("applause.mp3");

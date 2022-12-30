@@ -5,6 +5,8 @@
 Mobile and other keyboard-less devices are completely unsupported.
 
 ## How to Play
+Play Here! https://zach1502.github.io/Rhythm-Game/
+
 1. Tap corresponding keys on your keyboard to the beat of the music.
 2. The Keys are as follows:
     * `D` - Far Left

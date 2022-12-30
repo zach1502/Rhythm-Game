@@ -240,7 +240,7 @@ note 42100 d
 
 // Sexy sax ACTIVATE!!!!!!!
 // effect
-flash 1 375
+flash 1 350
 
 // single stream
 note 42500 k 
@@ -390,10 +390,10 @@ note 55900 k
 
 note 56000 d
 note 56000 j
-flash
 
 note 57200 d
 note 57200 f
 note 57200 j
 note 57200 k
-// end
+flash
+end

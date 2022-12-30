@@ -11,6 +11,31 @@
         <title>Zachary Chan | Rhythm Game</title>
     </head>
     <body>
+        <div class="modal">
+            <div class="modal-content">
+                <span class="close-button" tabindex="0">&times;</span>
+                <h1>Hello!👋</h1>
+                <p>
+                    Welcome to my rhythm game!
+                    This is a project I've been working on for a while.
+                    Unfortunately for the mobile users, this game is not playable for mobile devices!
+                </p>
+                <h2>How To Play: </h2>
+                <p>
+                    - Tap corresponding keys on your keyboard to the beat of the music
+                </p>
+                <p>
+                    - Keybinds are labeled on the keys themselves. Labels will be hidden when the game starts.
+                </p>
+                <p>
+                    - Get more points for hitting notes closer to the center of the keys
+                </p>
+                <p>
+                    <strong>If you have epilepsy or are sensitive to flashing lights, I HIGHLY RECOMMEND disabling the visual effects in the options panel.</strong>
+                </p>
+            </div>
+        </div>
+
         <div id="game-area">
             <div id="hit-timing"></div>
             <div class="d" style="filter: brightness(100%); transform: scale(1.0);"> D </div>
@@ -19,12 +44,15 @@
             <div class="k" style="filter: brightness(100%); transform: scale(1.0);"> K </div>
         </div>
         <div id="side-panel">
-            <h1>4K Rhythm Game</h1>
+            <h1>
+                4K Rhythm Game
+            </h1>
             <button id="play" onclick="start()" style="display:block"> Play </button>
             <div id="warning">
-                <img alt="Warning!!!" src="./warning.png" height="100" weight="100">
+                <img alt="Warning!!!" src="./warningT.png" height="100" weight="100">
                 <p>Warning: Your device may be too small for a proper experience!</p>
             </div>
+            <button class="htp-trigger">How to Play</button>
             <div id="game-stats">
                 Score: <div id="score">0</div>
                 <br>
@@ -61,23 +89,23 @@
                 <h2>Options</h2>
                 <div id="options-list">
                     <div id="songvolume">
-                        Song Volume: <div id="song-volume-value">35</div>
+                        <u>Song Volume:</u> <div id="song-volume-value">35</div>
                         <input type="range" min="1" max="100" value="35" class="slider" id="song-volume">
                     </div>
                     <div id="sfxvolume">
-                        SFX Volume: <div id="sfx-volume-value">35</div>
+                        <u>SFX Volume:</u> <div id="sfx-volume-value">35</div>
                         <input type="range" min="1" max="100" value="35" class="slider" id="sfx-volume">
                     </div>
                     <div id="vfx">
-                        Disable VFX: <div id="vfx-value">False</div>
+                        <u>Disable VFX:</u><br>
                         <input type="checkbox" id="vfx-checkbox">
                     </div>
                     <div id="autoplay">
-                        Autoplay: <div id="autoplay-value">False</div>
+                        <u>Autoplay:</u><br>
                         <input type="checkbox" id="autoplay-checkbox">
                     </div>
                     <div id="timing-display">
-                        Display Hit Timing: <div id="timing-display-value">True</div>
+                        <u>Display Hit Timing:</u><br>
                         <input type="checkbox" id="timing-display-checkbox" checked>
                     </div>
                 </div>

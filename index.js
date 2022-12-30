@@ -12,6 +12,7 @@ let notes = []; // list of notes on screen
 let song;
 let hitSound;
 let missSound;
+let applauseSound;
 
 // Needed Document Elements
 let gameAreaElement;
@@ -19,6 +20,11 @@ let scoreElement;
 let accuracyElement;
 let comboElement;
 let hitTimingElement;
+
+// Modal Elements
+let modalTriggerElement;
+let modalElement;
+let closeModalElement;
 
 // Options
 let songVolumeSlider;
@@ -41,7 +47,7 @@ let maxAcc = 0;
 let currAcc = 0;
 
 // Metadata
-let bpm = -1;
+let bpm = -1; // Needed for well timed flashes
 
 // data to run
 let flashID = -1;
@@ -113,8 +119,7 @@ window.onload = function(){
     if(document.readyState == "complete"){
         // initialize game
 
-        // lauchModal();
-
+        launchModal();
         attachEventHandlers();
         getKeys();
         getElements();
@@ -123,6 +128,21 @@ window.onload = function(){
         startBackgroundLoop();
         loadMap();
     }
+}
+
+function launchModal(){
+    modalTriggerElement = document.querySelector(".htp-trigger");
+    modalElement = document.querySelector(".modal");
+    closeModalElement = document.querySelector(".close-button");
+
+    modalTriggerElement.addEventListener('click', toggleModal);
+    closeModalElement.addEventListener('click', toggleModal);
+    closeModalElement.addEventListener('keydown', (event) => {
+        if(event.key == "Enter"){
+            toggleModal();
+        }
+    });
+    window.addEventListener('click', windowOnClick);
 }
 
 function getElements(){
@@ -139,33 +159,16 @@ function getOptions(){
     songVolumeOutput = document.getElementById("song-volume-value");
     sfxVolumeSlider = document.getElementById("sfx-volume");
     sfxVolumeOutput = document.getElementById("sfx-volume-value");
+
     autoplayBox = document.getElementById("autoplay-checkbox");
-    autoplayOutput = document.getElementById("autoplay-value");
     vfxBox = document.getElementById("vfx-checkbox");
-    vfxOutput = document.getElementById("vfx-value");
     displayHitTimingBox = document.getElementById("timing-display-checkbox");
-    displayHitTimingOutput = document.getElementById("timing-display-value");
+
 
 
     // set slider value
     songVolumeOutput.innerHTML = songVolumeSlider.value;
     sfxVolumeOutput.innerHTML = sfxVolumeSlider.value;
-
-    // capitalize first letter
-    let val = autoplayBox.checked;
-    val = val.toString();
-    val = val.charAt(0).toUpperCase() + val.slice(1);
-    autoplayOutput.innerHTML = val;
-
-    val = vfxBox.checked;
-    val = val.toString();
-    val = val.charAt(0).toUpperCase() + val.slice(1);
-    vfxOutput.innerHTML = val;
-
-    val = displayHitTimingBox.checked;
-    val = val.toString();
-    val = val.charAt(0).toUpperCase() + val.slice(1);
-    displayHitTimingOutput.innerHTML = val;
 
     // attach listeners
     songVolumeSlider.oninput = function(){
@@ -177,30 +180,7 @@ function getOptions(){
         sfxVolumeOutput.innerHTML = this.value;
         hitSound.volume = this.value / 400; // THESE SOUNDS ARE TOO LOUD
         missSound.volume = this.value / 400;
-    }
-
-    autoplayBox.oninput = function(){
-        // capitalize first letter
-        let val = this.checked;
-        val = val.toString();
-        val = val.charAt(0).toUpperCase() + val.slice(1);
-        autoplayOutput.innerHTML = val;
-    }
-
-    vfxBox.oninput = function(){
-        // capitalize first letter
-        let val = this.checked;
-        val = val.toString();
-        val = val.charAt(0).toUpperCase() + val.slice(1);
-        vfxOutput.innerHTML = val;
-    }
-
-    displayHitTimingBox.oninput = function(){
-        // capitalize first letter
-        let val = this.checked;
-        val = val.toString();
-        val = val.charAt(0).toUpperCase() + val.slice(1);
-        displayHitTimingOutput.innerHTML = val;
+        applauseSound.volume = this.value / 400;
     }
 }
 
@@ -293,7 +273,18 @@ function startBackgroundLoop(){
     setInterval(cleanNotes, 250);
 }
 
+function toggleModal(){
+    modalElement.classList.toggle("show-modal");
+}
+
+function windowOnClick(event) {
+    if (event.target === modalElement) {
+        toggleModal();
+    }
+}
+
 function attachEventHandlers(){
+    // for game
     document.addEventListener('keydown', keyDownHandler);
     document.addEventListener('keyup', keyUpHandler);
 }
@@ -310,15 +301,19 @@ function loadSounds(){
     song = new Audio("Giorno's theme.mp3");
     hitSound = new Audio("hit.wav");
     missSound = new Audio("miss.wav");
+    applauseSound = new Audio("applause.mp3");
 
     song.volume = songVolumeSlider.value / 100;
     missSound.volume = sfxVolumeSlider.value / 400;
     hitSound.volume = sfxVolumeSlider.value / 400;
+    applauseSound.volume = sfxVolumeSlider.value / 400;
 }
 
 async function start(){
-    // hide start button, show stats
+    // hide start button and warning and how to play
     document.getElementById("play").style.display = "none";
+    document.getElementById("warning").style.display = "none";
+    modalTriggerElement.style.display = "none";
 
     // Remove Key Hints
     removeKeyHints();
@@ -373,11 +368,24 @@ async function start(){
                 if(vfxBox.checked) continue;
                 flash(mapNote[1], mapNote[2]);
                 break;
+            case 99:
+                // execute end of song stuff
+                await sleep(1600);
+                endOfSong();
+                return;
             default:
                 // do nothing
                 break;
         }
     }
+}
+
+function endOfSong(){
+    // play applause
+    applauseSound.play();
+
+    // wait 
+    document.getElementById("hit-timing").innerHTML = "";
 }
 
 function removeKeyHints(){
@@ -538,7 +546,7 @@ function handleHit(key_pos, note_pos){
         // add combo
         incrementStat("combo");
         // increase #game-stats font size
-        fontSize += 0.10;
+        fontSize += 0.05;
         document.getElementById("game-stats").style.fontSize = `${fontSize}pt`;
     }
     else{
@@ -581,22 +589,22 @@ function calculatePoints(key_pos, note_pos){
         hitTimingElement.className = "";
         hitTimingElement.classList.add("excellent-colour");
         incrementStat("excellent");
-        updateAccuracy(75.0);
-        return 75;
+        updateAccuracy(67.0);
+        return 67;
     }
     else if(distance < good){
         hitTimingElement.className = "";
         hitTimingElement.classList.add("good-colour");
         incrementStat("good");
-        updateAccuracy(50.0);
-        return 50;
+        updateAccuracy(33.0);
+        return 33;
     }
     else if(distance < bad){
         hitTimingElement.className = "";
         hitTimingElement.classList.add("bad-colour");
         incrementStat("bad");
-        updateAccuracy(25.0);
-        return 25;
+        updateAccuracy(16.0);
+        return 16;
     }
     else{
         hitTimingElement.className = "";

@@ -9,7 +9,7 @@ let kkey;
 let notes = []; // list of notes on screen
 
 // Audio
-const songFile = "Giorno's theme.mp3";
+const defaultSongFile = "Giorno's theme.mp3";
 let song;
 let hitSound;
 let missSound;
@@ -110,41 +110,41 @@ class Note{
     }
 }
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 // on page load
 window.onload = function(){
     // check for readyState
     if(document.readyState == "complete"){
         // initialize game
-
         launchModal();
         attachEventHandlers();
         getKeys();
         getElements();
         getOptions();
-        loadSounds();
+        loadSfx();
+        loadSong(defaultSongFile);
         startBackgroundLoop();
-        loadMap();
+        loadMap("goldenWind-hard");
     }
 }
 
-function launchModal(){
-    modalTriggerElement = document.querySelector(".htp-trigger");
-    modalElement = document.querySelector(".modal");
-    closeModalElement = document.querySelector(".close-button");
-
-    modalTriggerElement.addEventListener('click', toggleModal);
-    closeModalElement.addEventListener('click', toggleModal);
-    closeModalElement.addEventListener('keydown', (event) => {
-        if(event.key == "Enter"){
-            toggleModal();
-        }
-    });
-    window.addEventListener('click', windowOnClick);
-    toggleModal();
+function loadLevel(level){
+    // load level
+    switch(level){
+        case "goldenWind-hard":
+            loadMap("goldenWind-hard");
+            loadSong("Giorno's theme.mp3");
+            console.log("Loaded Golden Wind - hard")
+            break;
+        case "goldenWind-med":
+            loadMap("goldenWind-med");
+            loadSong("Giorno's theme.mp3");
+            console.log("Loaded Golden Wind - med")
+            break;
+        
+        default:
+            console.log("invalid level");
+            break;
+    }
 }
 
 function getElements(){
@@ -184,13 +184,12 @@ function getOptions(){
     }
 }
 
-function loadMap(){
-    // get map from map.txt
-    // parse map line by line
-    // put each line into map
+function loadMap(mapToLoad = "goldenWind-hard"){
+    // clear map
+    map = [];
     
     // load from iframe
-    let map_text = document.getElementById("map").contentDocument.body.innerText;
+    let map_text = document.getElementById(mapToLoad).contentDocument.body.innerText;
     let lines = map_text.split("\n");
 
     // parse lines
@@ -269,51 +268,29 @@ function createChord(prevNote, key){
     return newNote;
 }
 
-function startBackgroundLoop(){
-    setInterval(cleanNotes, 250);
-}
-
-function toggleModal(){
-    modalElement.classList.toggle("show-modal");
-}
-
-function windowOnClick(event) {
-    if (event.target === modalElement) {
-        toggleModal();
-    }
-}
-
-function attachEventHandlers(){
-    // for game
-    document.addEventListener('keydown', keyDownHandler);
-    document.addEventListener('keyup', keyUpHandler);
-}
-
-function getKeys(){
-    // assign elements to keys
-    dkey = document.querySelector('.d');
-    fkey = document.querySelector('.f');
-    jkey = document.querySelector('.j');
-    kkey = document.querySelector('.k');
-}
-function loadSounds(){
-    // load song
-    song = new Audio(songFile);
-    hitSound = new Audio("hit.wav");
-    missSound = new Audio("miss.wav");
-    applauseSound = new Audio("applause.mp3");
-
-    song.volume = songVolumeSlider.value / 100;
-    missSound.volume = sfxVolumeSlider.value / 400;
-    hitSound.volume = sfxVolumeSlider.value / 400;
-    applauseSound.volume = sfxVolumeSlider.value / 400;
-}
-
 async function start(){
     // hide start button and warning and how to play
     document.getElementById("play").style.display = "none";
     document.getElementById("warning").style.display = "none";
     modalTriggerElement.style.display = "none";
+
+    // reset combo
+    comboElement.innerHTML = 0;
+
+    // reset stats
+    zeroStat("misses");
+    zeroStat("perfect");
+    zeroStat("excellent");
+    zeroStat("good");
+    zeroStat("bad");
+
+    // reset accuracy
+    maxAcc = 0.0;
+    currAcc = 0.0;
+    document.getElementById("accuracy").innerHTML = "00.00";
+
+    // reset score
+    document.getElementById("score").innerHTML = "0";
 
     // Remove Key Hints
     removeKeyHints();
@@ -383,16 +360,10 @@ async function start(){
 function endOfSong(){
     // play applause
     applauseSound.play();
-
-    // wait 
     document.getElementById("hit-timing").innerHTML = "";
-}
 
-function removeKeyHints(){
-    document.getElementsByClassName("d")[0].innerHTML = "";
-    document.getElementsByClassName("f")[0].innerHTML = "";
-    document.getElementsByClassName("j")[0].innerHTML = "";
-    document.getElementsByClassName("k")[0].innerHTML = "";
+    // show play again button
+    document.getElementById("play").style.display = "block";
 }
 
 function flash(reciprecalSpeed = 1.0, delayInitialFlash = 1200){
@@ -411,67 +382,6 @@ function flash(reciprecalSpeed = 1.0, delayInitialFlash = 1200){
             }, 100);
         }, ((60 * 1000)/bpm) * reciprecalSpeed);
     }, delayInitialFlash);
-}
-
-function cleanNotes(){
-    // if note is below the screen, remove it
-    let cleaned = false;
-    for(let i = 0; i < notes.length; i++){
-        const note = notes[i];
-        if(isOffScreen(note.note.getBoundingClientRect())){
-            note.note.remove();
-            notes.splice(i, 1);
-
-            cleaned = true;
-            incrementStat("misses");
-            updateAccuracy(0.0);
-        }
-        if(aboveKeys(note.note.getBoundingClientRect())){
-            break;
-        }
-    }
-
-    if(cleaned){
-        // play once for a large amount of notes
-        resetCombo();
-    }
-}
-
-function keyDownHandler(e){
-    switch(e.key){
-        case 'd':
-            isHold['d'] = true;
-            setBrightness(dkey, 50);
-            popElement(dkey, 1.1);
-            hitCheck(e.key, dkey);
-            break;
-        case 'f':
-            isHold['f'] = true;
-            setBrightness(fkey, 50);
-            popElement(fkey, 1.1);
-            hitCheck(e.key, fkey);
-            break;
-        case 'j':
-            isHold['j'] = true;
-            setBrightness(jkey, 50);
-            popElement(jkey, 1.1);
-            hitCheck(e.key, jkey);
-            break;
-        case 'k':
-            isHold['k'] = true;
-            setBrightness(kkey, 50);
-            popElement(kkey, 1.1);
-            hitCheck(e.key, kkey);
-            break;
-        case ";":
-            // spawn random note
-            const keys = ["d", "f", "j", "k"];
-            new Note(keys[Math.floor(Math.random() * keys.length)]);
-            break;
-        default:
-
-            break;
-    }
 }
 
 function hitCheck(key, key_element){
@@ -524,19 +434,6 @@ function autoHit(){
     }
 }
 
-function updateAccuracy(accVal){
-    // get current accuracy
-    maxAcc += 100.0;
-    currAcc += accVal;
-
-    // update accuracy
-    const acc = currAcc / maxAcc;
-    
-    // update accuracy text
-    accuracyElement.innerHTML = `${(acc * 100).toFixed(2)}`;
-}
-
-let fontSize = 16;
 function handleHit(key_pos, note_pos){
     // add score
     const points = calculatePoints(key_pos, note_pos);
@@ -545,9 +442,6 @@ function handleHit(key_pos, note_pos){
     if(points > 0){
         // add combo
         incrementStat("combo");
-        // increase #game-stats font size
-        fontSize += 0.05;
-        document.getElementById("game-stats").style.fontSize = `${fontSize}pt`;
     }
     else{
         // reset combo
@@ -615,24 +509,6 @@ function calculatePoints(key_pos, note_pos){
     }
 }
 
-function updateScore(score){
-    // update the score
-    scoreElement.innerHTML = parseInt(scoreElement.innerHTML) + score;
-}
-
-function incrementStat(str){
-    // update the stats
-    const stats_element = document.getElementById(str);
-    stats_element.innerHTML = parseInt(stats_element.innerHTML) + 1;
-}
-
-function resetCombo(){
-    // reset the combo
-    missSound.currentTime = 0;
-    missSound.play();
-    comboElement.innerHTML = 0;
-}
-
 // on key press
 function keyUpHandler(e){
     switch(e.key){
@@ -661,30 +537,39 @@ function keyUpHandler(e){
     }
 }
 
-function setBrightness(e, bright){
-    e.style.filter = `brightness(${bright}%)`;
-}
+function keyDownHandler(e){
+    switch(e.key){
+        case 'd':
+            isHold['d'] = true;
+            setBrightness(dkey, 50);
+            popElement(dkey, 1.1);
+            hitCheck(e.key, dkey);
+            break;
+        case 'f':
+            isHold['f'] = true;
+            setBrightness(fkey, 50);
+            popElement(fkey, 1.1);
+            hitCheck(e.key, fkey);
+            break;
+        case 'j':
+            isHold['j'] = true;
+            setBrightness(jkey, 50);
+            popElement(jkey, 1.1);
+            hitCheck(e.key, jkey);
+            break;
+        case 'k':
+            isHold['k'] = true;
+            setBrightness(kkey, 50);
+            popElement(kkey, 1.1);
+            hitCheck(e.key, kkey);
+            break;
+        case ";":
+            // spawn random note
+            const keys = ["d", "f", "j", "k"];
+            new Note(keys[Math.floor(Math.random() * keys.length)]);
+            break;
+        default:
 
-function popElement(e, size){
-    e.style.transform = `scale(${size})`;
-}
-
-function isBelow(rect1, rect2){
-    return rect1.top > rect2.bottom;
-}
-
-function aboveKeys(rect){
-    return rect.bottom < dkey.getBoundingClientRect().top;
-}
-
-function isOffScreen(rect){
-    return rect.top >= window.innerHeight;
-}
-
-function isInHitZone(key, note){
-    // check if the note is within the hit zone
-    // hit zone is +200% of the key height including the key
-    const hit_zone = key.height << 2;
-    const distance = Math.abs(key.y - note.y);
-    return distance < hit_zone;
+            break;
+    }
 }

@@ -10,7 +10,7 @@ button {
     margin-left: auto;
     margin-right: auto;
     font-family: monospace, serif;
-    background-color: #333;
+    background-color: #555;
 
     /* selected color */
     color: #fff;
@@ -239,4 +239,30 @@ a {
 }
 .htp-trigger {
     font-size: 20pt;
+}
+
+.tabcontent {
+    animation: fadeEffect 1s;
+}
+
+.tablinks {
+    background-color: #555;
+    color: white;
+    float: left;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+    width: 50%;
+    border: #333 1px solid;
+}
+
+#song-select-window {
+    overflow-y: scroll;
+    height: 30vh;
+}
+
+@keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
 }

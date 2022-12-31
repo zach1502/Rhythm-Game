@@ -95,9 +95,28 @@
                 </span>
             </div>
 
-            <div id="waveform"></div>
+            <div class="tab">
+                <button class="tablinks" onclick="openTab(event, 'song-select')" >Song Select</button>
+                <button class="tablinks" onclick="openTab(event, 'options')" id="defaultOpen">Options</button>
+            </div>
 
-            <div id="options">
+            <div id="song-select" class="tabcontent">
+                <h2>Song Select</h2>
+
+                <div id="song-select-window">
+                    <button id="song1" onclick="loadLevel('goldenWind-med')">Il Vento D'oro - Med</button>
+                    <button id="song2" onclick="loadLevel('goldenWind-hard')">Il Vento D'oro - Hard</button>
+                    <button id="song3" onclick="loadLevel('goldenWind-hard')">Il Vento D'oro - Hard</button>
+                    <button id="song4" onclick="loadLevel('goldenWind-hard')">Il Vento D'oro - Hard</button>
+                    <button id="song5" onclick="loadLevel('goldenWind-hard')">Il Vento D'oro - Hard</button>
+                    <button id="song6" onclick="loadLevel('goldenWind-hard')">Il Vento D'oro - Hard</button>
+                    <button id="song7" onclick="loadLevel('goldenWind-hard')">Il Vento D'oro - Hard</button>
+                </div>
+
+                <!-- Add option to upload map + song -->
+            </div>
+
+            <div id="options" class="tabcontent">
                 <h2>Options</h2>
                 <div id="options-list">
                     <div id="songvolume">
@@ -122,8 +141,22 @@
                     </div>
                 </div>
             </div>
+
+
         </div>
-        <iframe title="" id="map" src="./map.txt" style="display: none;"></iframe>
-        <script src="index.js" defer async></script>
+
+        <!-- Map Loading majickx-->
+        <iframe title="" id="goldenWind-hard" src="./goldenWind-hard.txt" style="display: none;"></iframe>
+        <iframe title="" id="goldenWind-med" src="./goldenWind-med.txt" style="display: none;"></iframe>
+        
+        <script src="./scripts/gameUtils.js"></script>
+        <script src="./scripts/modal.js"></script>
+        <script src="./scripts/tabMenu.js"></script>
+        <script src="./scripts/sounds.js"></script>
+        <script src="index.js" defer></script>
+        
+        <script>
+            document.getElementById("defaultOpen").click();
+        </script>
     </body>
 </html>

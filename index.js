@@ -9,7 +9,7 @@ let kkey;
 let notes = []; // list of notes on screen
 
 // Audio
-const defaultSongFile = "Giorno's theme.mp3";
+const defaultSongFile = "./songs/Giorno's theme.mp3";
 let song;
 let hitSound;
 let missSound;
@@ -46,6 +46,8 @@ let map = [];
 let combo = 0;
 let maxAcc = 0;
 let currAcc = 0;
+let restarting = false;
+let currentMap = "goldenWind-hard";
 
 // Metadata
 let bpm = -1; // Needed for well timed flashes
@@ -132,13 +134,15 @@ function loadLevel(level){
     switch(level){
         case "goldenWind-hard":
             loadMap("goldenWind-hard");
-            loadSong("Giorno's theme.mp3");
+            loadSong("./songs/Giorno's theme.mp3");
             console.log("Loaded Golden Wind - hard")
+            currentMap = "goldenWind-hard";
             break;
         case "goldenWind-med":
             loadMap("goldenWind-med");
-            loadSong("Giorno's theme.mp3");
+            loadSong("./songs/Giorno's theme.mp3");
             console.log("Loaded Golden Wind - med")
+            currentMap = "goldenWind-med";
             break;
         
         default:
@@ -268,11 +272,27 @@ function createChord(prevNote, key){
     return newNote;
 }
 
+async function retry(){
+    restarting = true;
+
+    document.getElementById("hit-timing").innerHTML = "";
+    song.currentTime = 0;
+    song.pause();
+
+    for(let note of notes){
+        note.note.remove();
+        delete note;
+    }
+    notes = [];
+    start();
+};
+
 async function start(){
     // hide start button and warning and how to play
     document.getElementById("play").style.display = "none";
     document.getElementById("warning").style.display = "none";
     modalTriggerElement.style.display = "none";
+    document.getElementById("retry").style.display = "block";
 
     // reset combo
     comboElement.innerHTML = 0;
@@ -305,6 +325,11 @@ async function start(){
     song.play();
     let vfxOn = false;
     for(let mapNote of map){
+        if(restarting) {
+            restarting = false;
+            return;
+        }
+
         const id = mapNote[0];
         const time = mapNote[1];
         let key = "";
@@ -314,6 +339,10 @@ async function start(){
                 // regular note
                 key = mapNote[2];
                 await sleep(time);
+                if (restarting) {
+                    restarting = false;
+                    return;
+                }
                 new Note(key, vfxOn && !vfxBox.checked);
                 break;
             case 1:
@@ -322,6 +351,10 @@ async function start(){
                 await sleep(time);
                 for(let i = 2; i < mapNote.length; i++){
                     key = mapNote[i];
+                    if (restarting) {
+                        restarting = false;
+                        return;
+                    }
                     new Note(key, vfxOn && !vfxBox.checked);
                 }
                 break;
@@ -331,6 +364,10 @@ async function start(){
                 // mapNote[3] is the key
                 await sleep(time);
                 key = mapNote[2];
+                if (restarting) {
+                    restarting = false;
+                    return;
+                }
                 new Note(key);
                 break;
             case 3:
@@ -364,6 +401,7 @@ function endOfSong(){
 
     // show play again button
     document.getElementById("play").style.display = "block";
+    document.getElementById("retry").style.display = "none";
 }
 
 function flash(reciprecalSpeed = 1.0, delayInitialFlash = 1200){

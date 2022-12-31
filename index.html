@@ -59,7 +59,10 @@
             <h1>
                 4K Rhythm Game
             </h1>
+
             <button id="play" onclick="start()" style="display:block"> Play </button>
+            <button id="retry" onclick="retry()" style="display:none"> Retry </button>
+
             <div id="warning">
                 <img alt="Warning!!!" src="./warning.png" height="100" weight="100">
                 <p>Warning: Your device may be too small for a proper experience!</p>
@@ -96,21 +99,16 @@
             </div>
 
             <div class="tab">
-                <button class="tablinks" onclick="openTab(event, 'song-select')" >Song Select</button>
-                <button class="tablinks" onclick="openTab(event, 'options')" id="defaultOpen">Options</button>
+                <button class="tablinks" onclick="openTab(event, 'song-select')" id="defaultOpen">Song Select</button>
+                <button class="tablinks" onclick="openTab(event, 'options')">Options</button>
             </div>
 
             <div id="song-select" class="tabcontent">
                 <h2>Song Select</h2>
 
                 <div id="song-select-window">
-                    <button id="song1" onclick="loadLevel('goldenWind-med')">Il Vento D'oro - Med</button>
-                    <button id="song2" onclick="loadLevel('goldenWind-hard')">Il Vento D'oro - Hard</button>
-                    <button id="song3" onclick="loadLevel('goldenWind-hard')">Il Vento D'oro - Hard</button>
-                    <button id="song4" onclick="loadLevel('goldenWind-hard')">Il Vento D'oro - Hard</button>
-                    <button id="song5" onclick="loadLevel('goldenWind-hard')">Il Vento D'oro - Hard</button>
-                    <button id="song6" onclick="loadLevel('goldenWind-hard')">Il Vento D'oro - Hard</button>
-                    <button id="song7" onclick="loadLevel('goldenWind-hard')">Il Vento D'oro - Hard</button>
+                    <button class= "song-option" onclick="loadLevel('goldenWind-med')">Il Vento D'oro - Medium</button>
+                    <button class= "song-option" onclick="loadLevel('goldenWind-hard')">Il Vento D'oro - Hard</button>
                 </div>
 
                 <!-- Add option to upload map + song -->
@@ -146,8 +144,8 @@
         </div>
 
         <!-- Map Loading majickx-->
-        <iframe title="" id="goldenWind-hard" src="./goldenWind-hard.txt" style="display: none;"></iframe>
-        <iframe title="" id="goldenWind-med" src="./goldenWind-med.txt" style="display: none;"></iframe>
+        <iframe title="" id="goldenWind-hard" src="./maps/goldenWind-hard.txt" style="display: none;"></iframe>
+        <iframe title="" id="goldenWind-med" src="./maps/goldenWind-med.txt" style="display: none;"></iframe>
         
         <script src="./scripts/gameUtils.js"></script>
         <script src="./scripts/modal.js"></script>

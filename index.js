@@ -47,7 +47,7 @@ let combo = 0;
 let maxAcc = 0;
 let currAcc = 0;
 let restarting = false;
-let currentMap = "goldenWind-hard";
+let currentMap = "goldenWind-med"; // default map
 
 // Metadata
 let bpm = -1; // Needed for well timed flashes
@@ -287,12 +287,32 @@ async function retry(){
     start();
 };
 
+async function stop(){
+    restarting = true;
+
+    document.getElementById("hit-timing").innerHTML = "";
+    song.currentTime = 0;
+    song.pause();
+
+    for(let note of notes){
+        note.note.remove();
+        delete note;
+    }
+    notes = [];
+
+    document.getElementById("hit-timing").innerHTML = "";
+    document.getElementById("play").style.display = "block";
+    document.getElementById("retry").style.display = "none";
+    document.getElementById("stop").style.display = "none";
+}
+
 async function start(){
     // hide start button and warning and how to play
     document.getElementById("play").style.display = "none";
     document.getElementById("warning").style.display = "none";
     modalTriggerElement.style.display = "none";
     document.getElementById("retry").style.display = "block";
+    document.getElementById("stop").style.display = "block";
 
     // reset combo
     comboElement.innerHTML = 0;
@@ -402,6 +422,7 @@ function endOfSong(){
     // show play again button
     document.getElementById("play").style.display = "block";
     document.getElementById("retry").style.display = "none";
+    document.getElementById("stop").style.display = "none";
 }
 
 function flash(reciprecalSpeed = 1.0, delayInitialFlash = 1200){

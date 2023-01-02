@@ -1,6 +1,8 @@
 // Music used under Fair Dealing for Educational and Private Study purposes
 // meta data
 bpm 135
+
+// start of song
 note 0 d
 note 0 f
 

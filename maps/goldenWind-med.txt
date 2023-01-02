@@ -1,10 +1,10 @@
 // Music used under Fair Dealing for Educational and Private Study purposes
 // meta data
 bpm 135
-note 0 d
-note 0 f
 
-note 750 j
+// start of song
+note 0 d
+
 note 750 k
 
 note 1600 d
@@ -32,11 +32,9 @@ note 6500 k
 note 6800 j
 
 // repeated below
-note 7100 d
 note 7100 f
 
 note 7850 j
-note 7850 k
 
 note 8700 d
 note 8775 f
@@ -67,9 +65,7 @@ note 13900 j
 flash 2 375
 note 14200 d
 note 14200 f
-note 14200 k
 
-note 14800 d
 note 14800 j
 note 14800 k
 
@@ -86,12 +82,10 @@ note 17400 j
 
 // GOLDEN WIND
 note 17700 d
-note 17700 k
 
 note 18100 f
 
 note 18400 j
-note 18400 k
 
 // Some more notes
 note 18950 d
@@ -108,9 +102,7 @@ note 20950 j
 // JOOOOOO JOOOOO!
 note 21250 d
 note 21250 f
-note 21250 k
 
-note 21850 d
 note 21850 j
 note 21850 k
 

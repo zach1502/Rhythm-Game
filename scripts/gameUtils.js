@@ -112,3 +112,20 @@ function updateAccuracy(accVal){
     // update accuracy text
     accuracyElement.innerHTML = `${(acc * 100).toFixed(2)}`;
 }
+
+function resetAndPauseSong(){
+    song.currentTime = 0;
+    song.pause();
+}
+
+function disableButtons(){
+    // disable retry and stop buttons
+    document.getElementById("retry").disabled = true;
+    document.getElementById("stop").disabled = true;
+
+    setTimeout(function(){
+        // re-enable retry and stop buttons
+        document.getElementById("retry").disabled = false;
+        document.getElementById("stop").disabled = false;
+    }, 500);
+}

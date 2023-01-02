@@ -47,6 +47,7 @@ let combo = 0;
 let maxAcc = 0;
 let currAcc = 0;
 let restarting = false;
+let stopping = false;
 let currentMap = "goldenWind-med"; // default map
 
 // Metadata
@@ -125,7 +126,7 @@ window.onload = function(){
         loadSfx();
         loadSong(defaultSongFile);
         startBackgroundLoop();
-        loadMap("goldenWind-hard");
+        loadMap("goldenWind-med");
     }
 }
 
@@ -188,7 +189,7 @@ function getOptions(){
     }
 }
 
-function loadMap(mapToLoad = "goldenWind-hard"){
+function loadMap(mapToLoad){
     // clear map
     map = [];
     
@@ -276,23 +277,22 @@ async function retry(){
     restarting = true;
 
     document.getElementById("hit-timing").innerHTML = "";
-    song.currentTime = 0;
-    song.pause();
-
+    resetAndPauseSong()
     for(let note of notes){
         note.note.remove();
         delete note;
     }
     notes = [];
+
+    disableButtons();
     start();
 };
 
 async function stop(){
-    restarting = true;
+    stopping = true;
 
     document.getElementById("hit-timing").innerHTML = "";
-    song.currentTime = 0;
-    song.pause();
+    resetAndPauseSong()
 
     for(let note of notes){
         note.note.remove();
@@ -302,8 +302,11 @@ async function stop(){
 
     document.getElementById("hit-timing").innerHTML = "";
     document.getElementById("play").style.display = "block";
+    modalTriggerElement.style.display = "block";
     document.getElementById("retry").style.display = "none";
     document.getElementById("stop").style.display = "none";
+
+    disableButtons();
 }
 
 async function start(){
@@ -343,10 +346,19 @@ async function start(){
     // start the game
     await sleep(1000); 
     song.play();
+
+    if(stopping){
+        stopping = false;
+        resetAndPauseSong()
+        return;
+    }
+
     let vfxOn = false;
     for(let mapNote of map){
-        if(restarting) {
+        if(restarting || stopping) {
             restarting = false;
+            stopping = false;
+            resetAndPauseSong()
             return;
         }
 
@@ -359,8 +371,10 @@ async function start(){
                 // regular note
                 key = mapNote[2];
                 await sleep(time);
-                if (restarting) {
+                if (restarting || stopping) {
                     restarting = false;
+                    stopping = false;
+                    resetAndPauseSong()
                     return;
                 }
                 new Note(key, vfxOn && !vfxBox.checked);
@@ -371,8 +385,10 @@ async function start(){
                 await sleep(time);
                 for(let i = 2; i < mapNote.length; i++){
                     key = mapNote[i];
-                    if (restarting) {
+                    if (restarting || stopping) {
                         restarting = false;
+                        stopping = false;
+                        resetAndPauseSong()
                         return;
                     }
                     new Note(key, vfxOn && !vfxBox.checked);
@@ -384,8 +400,10 @@ async function start(){
                 // mapNote[3] is the key
                 await sleep(time);
                 key = mapNote[2];
-                if (restarting) {
+                if (restarting || stopping) {
                     restarting = false;
+                    stopping = false;
+                    resetAndPauseSong()
                     return;
                 }
                 new Note(key);
@@ -423,6 +441,7 @@ function endOfSong(){
     document.getElementById("play").style.display = "block";
     document.getElementById("retry").style.display = "none";
     document.getElementById("stop").style.display = "none";
+    modalTriggerElement.style.display = "block";
 }
 
 function flash(reciprecalSpeed = 1.0, delayInitialFlash = 1200){

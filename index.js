@@ -555,28 +555,28 @@ function calculatePoints(key_pos, note_pos){
         hitTimingElement.classList.add("perfect-colour");
         incrementStat("perfect");
         updateAccuracy(100.0);
-        return 100;
+        return 100; 
     }
     else if(distance <= excellent){
         hitTimingElement.className = "";
         hitTimingElement.classList.add("excellent-colour");
         incrementStat("excellent");
-        updateAccuracy(67.0);
-        return 67;
+        updateAccuracy(75.0);
+        return 75;
     }
     else if(distance < good){
         hitTimingElement.className = "";
         hitTimingElement.classList.add("good-colour");
         incrementStat("good");
-        updateAccuracy(33.0);
-        return 33;
+        updateAccuracy(50.0);
+        return 50;
     }
     else if(distance < bad){
         hitTimingElement.className = "";
         hitTimingElement.classList.add("bad-colour");
         incrementStat("bad");
-        updateAccuracy(16.0);
-        return 16;
+        updateAccuracy(25.0);
+        return 25;
     }
     else{
         hitTimingElement.className = "";

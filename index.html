@@ -9,6 +9,7 @@
             gtag('js', new Date());
             gtag('config', 'G-EJ4J9G467E');
         </script>
+        <meta http-equiv='Content-Security-Policy' content="default-src 'self' ; script-src 'self' 'unsafe-inline' www.google-analytics.com; style-src 'self' 'unsafe-inline' a.disquscdn.com; img-src 'self' *; media-src 'self' ; frame-src 'self';">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="A rhythm game for you to play!">
         <meta name="keywords" content="project, co-op, site, zach, rhythm, music, wow, beat">
@@ -148,14 +149,11 @@
         <iframe title="" id="goldenWind-hard" src="./maps/goldenWind-hard.txt" style="display: none;"></iframe>
         <iframe title="" id="goldenWind-med" src="./maps/goldenWind-med.txt" style="display: none;"></iframe>
         
-        <script src="./scripts/gameUtils.js"></script>
-        <script src="./scripts/modal.js"></script>
-        <script src="./scripts/tabMenu.js"></script>
-        <script src="./scripts/sounds.js"></script>
+        <script src="./scripts/gameUtils.js" async></script>
+        <script src="./scripts/modal.js" async></script>
+        <script src="./scripts/tabMenu.js" async></script>
+        <script src="./scripts/sounds.js" async></script>
         <script src="index.js" defer></script>
         
-        <script>
-            document.getElementById("defaultOpen").click();
-        </script>
     </body>
 </html>

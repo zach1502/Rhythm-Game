@@ -1,0 +1,252 @@
+// Music used under Fair Dealing for Educational and Private Study purposes
+// meta data
+bpm 135
+
+// start of song
+note 0 d
+
+note 750 k
+
+note 1600 d
+note 1800 k
+note 2100 j
+note 2400 f
+note 2700 d
+note 3000 f
+note 3300 j
+note 3600 k
+
+note 4200 d
+note 4200 f
+
+note 4850 d
+note 5150 f
+note 5350 j
+
+note 5650 k
+note 5950 j
+note 6200 f
+
+note 6500 k
+note 6800 j
+
+// repeated below
+note 7100 f
+
+note 7850 j
+
+note 8700 d
+note 8900 k
+
+note 9200 j
+note 9500 f
+note 9800 d
+note 10100 f
+note 10400 j
+note 10700 k
+
+note 11300 d
+note 11300 f
+
+note 11950 d
+note 12250 f
+note 12450 j
+
+note 12750 k
+note 13050 j
+note 13300 f
+
+note 13600 k
+note 13900 j
+
+// JOOOOOO JOOOOO!
+flash 2 375
+note 14200 d
+note 14200 f
+
+note 14800 j
+note 14800 k
+
+// Some notes
+note 15800 d
+note 15950 k
+
+note 16250 j
+note 16500 f
+note 16800 d
+note 17100 f
+note 17400 j 
+
+// GOLDEN WIND
+note 17700 d
+
+note 18100 f
+
+note 18400 j
+
+// Some more notes
+note 18950 d
+note 19250 f 
+note 19400 j 
+note 19800 k
+
+note 20100 j
+note 20300 f
+
+note 20700 k
+note 20950 j 
+
+// JOOOOOO JOOOOO!
+note 21250 d
+note 21250 f
+
+note 21850 j
+note 21850 k
+
+// Some notes
+note 22850 d
+note 23000 k
+
+note 23300 j
+note 23550 f
+note 23850 d
+note 24150 f
+note 24450 j 
+
+// GOLDEN WIND
+note 24750 d
+note 24750 k
+
+note 25150 f
+
+note 25450 j
+note 25450 k
+
+// even more notes
+note 26100 f 
+note 26300 j 
+note 26600 k 
+
+note 26900 f
+note 27100 d 
+note 27400 f
+
+note 27700 j
+note 27950 f 
+note 28250 k 
+note 28250 d 
+flash
+
+// build up
+// dddfdfdfd
+note 28450 d
+
+// kkkkjkjkjk
+note 30100 k
+
+// ddddfdfdfd
+note 31900 d
+
+// kkkkjkjkjk
+note 33500 k
+
+// // intro sax
+// single stream
+// mini jack
+note 35300 d
+
+// roll
+note 38000 k 
+
+// split roll
+note 38400 j 
+
+note 38700 d
+
+// split roll
+note 39100 f 
+
+note 39400 k
+
+// roll
+note 39800 f 
+
+// stay poppin'
+note 41650 f 
+note 41850 d
+note 42100 d
+
+// Sexy sax ACTIVATE!!!!!!!
+// effect
+flash 2 350
+
+// single stream
+note 42500 k 
+
+note 43000 j 
+
+note 43300 f
+
+note 43900 f 
+
+// sax pierce
+note 44400 j 
+
+// rolls
+note 45100 d 
+
+note 45200 k
+
+// jack-trill
+note 45700 d 
+
+note 46500 f
+
+note 47400 j
+
+// jjjjkjkjk 
+note 47700 j
+
+// ddddfdfdf
+note 49500 d
+
+note 50300 f
+
+flash
+flash 1 0
+
+// kkkkjkjkjk
+note 51200 k
+
+note 52100 j
+
+// ddddfdfdf
+// jjjjkjkjk
+note 52600 d
+note 52600 j 
+
+note 53000 f
+note 53000 k
+
+
+note 54000 d
+note 54000 j
+
+note 54400 f
+note 54400 k
+
+
+note 55200 d
+note 55200 j 
+
+note 55600 f
+note 55600 k
+
+
+note 57200 d
+note 57200 f
+note 57200 j
+note 57200 k
+
+flash
+end

@@ -74,6 +74,7 @@ function cleanNotes(){
             cleaned = true;
             incrementStat("misses");
             updateAccuracy(0.0);
+            continue;
         }
         if(aboveKeys(note.note.getBoundingClientRect())){
             break;

@@ -49,6 +49,7 @@ let currAcc = 0;
 let restarting = false;
 let stopping = false;
 let currentMap = "goldenWind-med"; // default map
+let loadedSong = defaultSongFile; // default song
 
 // Metadata
 let bpm = -1; // Needed for well timed flashes
@@ -131,17 +132,24 @@ window.onload = function(){
 }
 
 function loadLevel(level){
+    if(currentMap == level) return;
+
+
     // load level
     switch(level){
         case "goldenWind-hard":
             loadMap("goldenWind-hard");
-            loadSong("./songs/Giorno's theme.mp3");
+            if(loadedSong != "./songs/Giorno's theme.mp3"){
+                loadSong("./songs/Giorno's theme.mp3");
+            }
             console.log("Loaded Golden Wind - hard")
             currentMap = "goldenWind-hard";
             break;
         case "goldenWind-med":
             loadMap("goldenWind-med");
-            loadSong("./songs/Giorno's theme.mp3");
+            if(loadedSong != "./songs/Giorno's theme.mp3"){
+                loadSong("./songs/Giorno's theme.mp3");
+            }
             console.log("Loaded Golden Wind - med")
             currentMap = "goldenWind-med";
             break;
@@ -485,7 +493,6 @@ function hitCheck(key, key_element){
             handleHit(key_pos, note_pos);
             hitSound.currentTime = 0;
             hitSound.play();
-            return;
         }
     }
 }

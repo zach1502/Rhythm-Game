@@ -48,6 +48,8 @@ let maxAcc = 0;
 let currAcc = 0;
 let restarting = false;
 let stopping = false;
+let loading = false;
+let playing = false;
 let currentMap = "goldenWind-med"; // default map
 let loadedSong = defaultSongFile; // default song
 
@@ -131,33 +133,22 @@ window.onload = function(){
     }
 }
 
-function loadLevel(level){
+function loadLevel(level, song){
     if(currentMap == level) return;
+    loading = true;
 
-
-    // load level
-    switch(level){
-        case "goldenWind-hard":
-            loadMap("goldenWind-hard");
-            if(loadedSong != "./songs/Giorno's theme.mp3"){
-                loadSong("./songs/Giorno's theme.mp3");
-            }
-            console.log("Loaded Golden Wind - hard")
-            currentMap = "goldenWind-hard";
-            break;
-        case "goldenWind-med":
-            loadMap("goldenWind-med");
-            if(loadedSong != "./songs/Giorno's theme.mp3"){
-                loadSong("./songs/Giorno's theme.mp3");
-            }
-            console.log("Loaded Golden Wind - med")
-            currentMap = "goldenWind-med";
-            break;
-        
-        default:
-            console.log("invalid level");
-            break;
+    loadMap(level);
+    if(loadedSong != song){
+        loadSong(song);
     }
+    console.log(level)
+    currentMap = level;
+
+    // find the selected song 
+    document.getElementById("selected-song").id = "";
+    document.getElementsByClassName(level)[0].id = "selected-song";
+
+    loading = false;
 }
 
 function getElements(){
@@ -318,6 +309,8 @@ async function stop(){
 }
 
 async function start(){
+    if(loading) return;
+
     // hide start button and warning and how to play
     document.getElementById("play").style.display = "none";
     document.getElementById("warning").style.display = "none";

@@ -486,6 +486,7 @@ function hitCheck(key, key_element){
             handleHit(key_pos, note_pos);
             hitSound.currentTime = 0;
             hitSound.play();
+            return;
         }
     }
 }

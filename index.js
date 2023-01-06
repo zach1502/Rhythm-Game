@@ -181,6 +181,16 @@ function getOptions(){
     vfxBox = document.getElementById("vfx-checkbox");
     displayHitTimingBox = document.getElementById("timing-display-checkbox");
 
+    // check if local storage is available
+    if(storageAvailable("localStorage")){
+        // get values from local storage
+        songVolumeSlider.value = localStorage.getItem("songVolume");
+        sfxVolumeSlider.value = localStorage.getItem("sfxVolume");
+        autoplayBox.checked = localStorage.getItem("autoplay") == "true";
+        vfxBox.checked = localStorage.getItem("vfx") == "true";
+        displayHitTimingBox.checked = localStorage.getItem("displayHitTiming") == "true";
+    }
+
     // set slider value
     songVolumeOutput.innerHTML = songVolumeSlider.value;
     sfxVolumeOutput.innerHTML = sfxVolumeSlider.value;
@@ -189,6 +199,10 @@ function getOptions(){
     songVolumeSlider.oninput = function(){
         songVolumeOutput.innerHTML = this.value;
         song.volume = this.value / 100;
+
+        if(storageAvailable("localStorage")){
+            localStorage.setItem("songVolume", this.value);
+        }
     }
     
     sfxVolumeSlider.oninput = function(){
@@ -196,6 +210,28 @@ function getOptions(){
         hitSound.volume = this.value / 400; // THESE SOUNDS ARE TOO LOUD
         missSound.volume = this.value / 400;
         applauseSound.volume = this.value / 400;
+
+        if(storageAvailable("localStorage")){
+            localStorage.setItem("sfxVolume", this.value);
+        }
+    }
+
+    autoplayBox.onchange = function(){
+        if(storageAvailable("localStorage")){
+            localStorage.setItem("autoplay", this.checked);
+        }
+    }
+
+    vfxBox.onchange = function(){
+        if(storageAvailable("localStorage")){
+            localStorage.setItem("vfx", this.checked);
+        }
+    }
+    
+    displayHitTimingBox.onchange = function(){
+        if(storageAvailable("localStorage")){
+            localStorage.setItem("displayHitTiming", this.checked);
+        }
     }
 }
 

@@ -27,6 +27,12 @@ let modalTriggerElement;
 let modalElement;
 let closeModalElement;
 
+// sidebar elements
+let playButtonElement;
+let warningElement;
+let retryButtonElement;
+let stopButtonElement;
+
 // Options
 let songVolumeSlider;
 let songVolumeOutput;
@@ -157,6 +163,11 @@ function getElements(){
     accuracyElement = document.getElementById("accuracy");
     comboElement = document.getElementById("combo");
     hitTimingElement = document.getElementById("hit-timing");
+
+    playButtonElement = document.getElementById("play");
+    warningElement = document.getElementById("warning");
+    retryButtonElement = document.getElementById("retry");
+    stopButtonElement = document.getElementById("stop");
 }
 
 function getOptions(){
@@ -275,7 +286,7 @@ function createChord(prevNote, key){
 async function retry(){
     restarting = true;
 
-    document.getElementById("hit-timing").innerHTML = "";
+    hitTimingElement.innerHTML = "";
     resetAndPauseSong()
     for(let note of notes){
         note.note.remove();
@@ -290,7 +301,7 @@ async function retry(){
 async function stop(){
     stopping = true;
 
-    document.getElementById("hit-timing").innerHTML = "";
+    hitTimingElement.innerHTML = "";
     resetAndPauseSong()
 
     for(let note of notes){
@@ -299,11 +310,11 @@ async function stop(){
     }
     notes = [];
 
-    document.getElementById("hit-timing").innerHTML = "";
-    document.getElementById("play").style.display = "block";
+    hitTimingElement.innerHTML = "";
+    playButtonElement.style.display = "block";
     modalTriggerElement.style.display = "block";
-    document.getElementById("retry").style.display = "none";
-    document.getElementById("stop").style.display = "none";
+    retryButtonElement.style.display = "none";
+    stopButtonElement.style.display = "none";
 
     disableButtons();
 }
@@ -312,11 +323,11 @@ async function start(){
     if(loading) return;
 
     // hide start button and warning and how to play
-    document.getElementById("play").style.display = "none";
-    document.getElementById("warning").style.display = "none";
+    playButtonElement.style.display = "none";
+    warningElement.style.display = "none";
     modalTriggerElement.style.display = "none";
-    document.getElementById("retry").style.display = "block";
-    document.getElementById("stop").style.display = "block";
+    retryButtonElement.style.display = "block";
+    stopButtonElement.style.display = "block";
 
     // reset combo
     comboElement.innerHTML = 0;
@@ -331,10 +342,10 @@ async function start(){
     // reset accuracy
     maxAcc = 0.0;
     currAcc = 0.0;
-    document.getElementById("accuracy").innerHTML = "00.00";
+    accuracyElement.innerHTML = "00.00";
 
     // reset score
-    document.getElementById("score").innerHTML = "0";
+    scoreElement.innerHTML = "0";
 
     // Remove Key Hints
     removeKeyHints();
@@ -436,12 +447,12 @@ async function start(){
 function endOfSong(){
     // play applause
     applauseSound.play();
-    document.getElementById("hit-timing").innerHTML = "";
+    hitTimingElement.innerHTML = "";
 
     // show play again button
-    document.getElementById("play").style.display = "block";
-    document.getElementById("retry").style.display = "none";
-    document.getElementById("stop").style.display = "none";
+    playButtonElement.style.display = "block";
+    retryButtonElement.style.display = "none";
+    stopButtonElement.style.display = "none";
     modalTriggerElement.style.display = "block";
 }
 
@@ -546,7 +557,7 @@ function calculatePoints(key_pos, note_pos){
     console.log(`note ${i++}: ${timing}`);
 
     // check if hit timing is enabled
-    if(document.getElementById("timing-display-checkbox").checked){
+    if(displayHitTimingBox.checked){
         hitTimingElement.innerHTML = `${(timing>0)?"+":""}${timing.toFixed(2)} ms`;
     }
 
@@ -648,7 +659,6 @@ function keyDownHandler(e){
             new Note(keys[Math.floor(Math.random() * keys.length)]);
             break;
         default:
-
             break;
     }
 }

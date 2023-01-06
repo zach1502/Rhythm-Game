@@ -243,10 +243,10 @@ note 55600 f
 note 55600 k
 
 
-note 57200 d
-note 57200 f
-note 57200 j
-note 57200 k
+note 57400 d
+note 57400 f
+note 57400 j
+note 57400 k
 
 flash
 end

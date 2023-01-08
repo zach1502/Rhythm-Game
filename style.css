@@ -267,6 +267,11 @@ a {
     height: 30vh;
 }
 
+#options-list{
+    overflow-y: auto;
+    height: 30vh;
+}
+
 .song-option {
     width: 100%;
     margin: 0px;

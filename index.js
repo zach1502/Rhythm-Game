@@ -562,7 +562,7 @@ function autoHit(){
         const note_pos = note.note.getBoundingClientRect();
 
         // check if the note will hit
-        if(Math.abs(note_pos.bottom - dkey.getBoundingClientRect().bottom) < 10.0){
+        if(Math.abs(note_pos.bottom - dkey.getBoundingClientRect().bottom) < 8.0){
             // remove all references to the note (can be garbage collected)
             note.note.remove();
             notes.splice(i, 1);

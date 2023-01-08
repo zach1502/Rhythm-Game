@@ -112,6 +112,10 @@
                 <h2>Song Select</h2>
 
                 <div id="song-select-window">
+                    <!-- Default Song preloaded-->
+                    <span>
+                        <button class="song-option goldenWind-med" id="selected-song" onclick="loadLevel('goldenWind-med', './songs/Giorno\'s theme.mp3')">Il Vento D'oro - Medium</button>
+                    </span>
                 </div>
 
                 <!-- Add option to upload map + song -->
@@ -146,10 +150,6 @@
 
         </div>
 
-        <!-- Map Loading majickx-->
-        <iframe title="" id="goldenWind-hard" src="./maps/goldenWind-hard.txt" style="display: none;"></iframe>
-        <iframe title="" id="goldenWind-med" src="./maps/goldenWind-med.txt" style="display: none;"></iframe>
-        
         <script src="./scripts/gameUtils.js" async></script>
         <script src="./scripts/modal.js" async></script>
         <script src="./scripts/tabMenu.js"></script>
@@ -158,6 +158,7 @@
         <script>
             document.getElementById("defaultOpen").click();
         </script>
+        <iframe id="goldenWind-med" src="./maps/goldenWind-med.txt" style="display: none;"></iframe>
         
     </body>
 </html>

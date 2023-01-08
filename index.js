@@ -68,15 +68,17 @@ let flashID = -1;
 let speed = (window.innerHeight / 1.4)*(1/1000);
 
 let songList = [
-    {
-        id: "goldenWind-med",
-        songFile: "./songs/Giorno\'s theme.mp3",
-        display: "Il Vento D'oro - Medium",
-    },
+    // {
+    //     id: "goldenWind-med",
+    //     songFile: "./songs/Giorno\'s theme.mp3",
+    //     display: "Il Vento D'oro - Medium",
+    //     mapFile: "./maps/goldenWind-med.txt"
+    // },
     {
         id: "goldenWind-hard",
         songFile: "./songs/Giorno\'s theme.mp3",
         display: "Il Vento D'oro - Hard",
+        mapFile: "./maps/goldenWind-hard.txt"
     },
 ];
 
@@ -148,8 +150,8 @@ window.onload = function(){
         getOptions();
         loadSongSelect();
         loadSfx();
-        loadSong(defaultSongFile);
         startBackgroundLoop();
+        loadSong(defaultSongFile);
         loadMap("goldenWind-med");
     }
 }
@@ -393,8 +395,12 @@ async function start(){
 
     // check if autoplay is checked
     if(autoplayBox.checked){
-        setInterval(autoHit, 1);
+        setInterval(autoHit, 5);
     }
+
+    // stop applause
+    applauseSound.pause();
+    applauseSound.currentTime = 0;
 
     // start the game
     await sleep(1000); 
@@ -537,6 +543,12 @@ function loadSongSelect(){
 
         button.setAttribute('onclick', `loadLevel('${song.id}', "${song.songFile}")`);
 
+        let iframe = document.createElement("iframe");
+        iframe.id = song.id;
+        iframe.src = song.mapFile;
+        iframe.style.display = "none";
+        document.body.appendChild(iframe);
+
         span.appendChild(button);
         songSelectWindow.appendChild(span);
     }
@@ -550,7 +562,7 @@ function autoHit(){
         const note_pos = note.note.getBoundingClientRect();
 
         // check if the note will hit
-        if(Math.abs(note_pos.bottom - dkey.getBoundingClientRect().bottom) < 5.0){
+        if(Math.abs(note_pos.bottom - dkey.getBoundingClientRect().bottom) < 10.0){
             // remove all references to the note (can be garbage collected)
             note.note.remove();
             notes.splice(i, 1);

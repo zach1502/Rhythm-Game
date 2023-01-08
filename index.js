@@ -21,6 +21,7 @@ let scoreElement;
 let accuracyElement;
 let comboElement;
 let hitTimingElement;
+let songSelectWindow;
 
 // Modal Elements
 let modalTriggerElement;
@@ -65,6 +66,19 @@ let bpm = -1; // Needed for well timed flashes
 // data to run
 let flashID = -1;
 let speed = (window.innerHeight / 1.4)*(1/1000);
+
+let songList = [
+    {
+        id: "goldenWind-med",
+        songFile: "./songs/Giorno\'s theme.mp3",
+        display: "Il Vento D'oro - Medium",
+    },
+    {
+        id: "goldenWind-hard",
+        songFile: "./songs/Giorno\'s theme.mp3",
+        display: "Il Vento D'oro - Hard",
+    },
+];
 
 let isHold = {
     'd': false,
@@ -132,6 +146,7 @@ window.onload = function(){
         getKeys();
         getElements();
         getOptions();
+        loadSongSelect();
         loadSfx();
         loadSong(defaultSongFile);
         startBackgroundLoop();
@@ -168,6 +183,8 @@ function getElements(){
     warningElement = document.getElementById("warning");
     retryButtonElement = document.getElementById("retry");
     stopButtonElement = document.getElementById("stop");
+
+    songSelectWindow = document.getElementById("song-select-window");
 }
 
 function getOptions(){
@@ -497,6 +514,32 @@ function flash(reciprecalSpeed = 1.0, delayInitialFlash = 1200){
             }, 100);
         }, ((60 * 1000)/bpm) * reciprecalSpeed);
     }, delayInitialFlash);
+}
+
+function loadSongSelect(){
+    for(let song of songList){
+        /* 
+            <span>
+                <button class="song-option goldenWind-med" onclick="loadLevel('goldenWind-med', './songs/Giorno\'s theme.mp3')" id="selected-song">Il Vento D'oro - Medium</button>
+            </span>
+        */
+
+        let span = document.createElement("span");
+        let button = document.createElement("button");     
+        
+        button.classList.add("song-option");
+        button.classList.add(song.id);
+        button.innerHTML = song.display;
+
+        if (song.id == "goldenWind-med") {
+            button.id = "selected-song";
+        }
+
+        button.setAttribute('onclick', `loadLevel('${song.id}', "${song.songFile}")`);
+
+        span.appendChild(button);
+        songSelectWindow.appendChild(span);
+    }
 }
 
 function autoHit(){

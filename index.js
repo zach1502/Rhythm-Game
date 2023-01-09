@@ -67,8 +67,9 @@ let bpm = -1; // Needed for well timed flashes
 let flashID = -1;
 let speed = (window.innerHeight / 1.4)*(1/1000);
 
-let songList = [
+let levelList = [
     // {
+    //     // Added by default
     //     id: "goldenWind-med",
     //     songFile: "./songs/Giorno\'s theme.mp3",
     //     display: "Il Vento D'oro - Medium",
@@ -78,7 +79,8 @@ let songList = [
         id: "goldenWind-hard",
         songFile: "./songs/Giorno\'s theme.mp3",
         display: "Il Vento D'oro - Hard",
-        mapFile: "./maps/goldenWind-hard.txt"
+        mapFile: "./maps/goldenWind-hard.txt",
+        record: 0,
     },
 ];
 
@@ -503,6 +505,19 @@ function endOfSong(){
     modalTriggerElement.style.display = "block";
 
     turnOffFlash();
+
+    // save the score and accuracy to local storage if autoplay is not checked
+    // and if the score is greater than the current score
+    if(!autoplayBox.checked){
+        if(parseInt(scoreElement.innerHTML) > localStorage.getItem(`${currentMap}-score`)){
+            saveScore();
+            saveAccuracy();
+
+            // update the score and accuracy on the song select screen
+            document.getElementById(`score-${currentMap}`).innerHTML = `Score: ${scoreElement.innerHTML}`;
+            document.getElementById(`accuracy-${currentMap}`).innerHTML = `Accuracy: ${accuracyElement.innerHTML}%`;
+        }
+    }
 }
 
 function flash(reciprecalSpeed = 1.0, delayInitialFlash = 1200){
@@ -523,15 +538,23 @@ function flash(reciprecalSpeed = 1.0, delayInitialFlash = 1200){
 }
 
 function loadSongSelect(){
-    for(let song of songList){
+    for(let song of levelList){
         /* 
             <span>
-                <button class="song-option goldenWind-med" onclick="loadLevel('goldenWind-med', './songs/Giorno\'s theme.mp3')" id="selected-song">Il Vento D'oro - Medium</button>
+                <button class="song-option goldenWind-med" id="selected-song" onclick="loadLevel('goldenWind-med', './songs/Giorno\'s theme.mp3')">
+                    Il Vento D'oro - Medium
+                    <br>
+                    <span class="personal-best-score">Score: 0</span>
+                    |
+                    <span class="personal-best-accuracy">Accuracy: 00.00%</span>
+                </button>
             </span>
         */
 
         let span = document.createElement("span");
-        let button = document.createElement("button");     
+        let button = document.createElement("button");
+        let scoreSpan = document.createElement("span");
+        let accuracySpan = document.createElement("span");
         
         button.classList.add("song-option");
         button.classList.add(song.id);
@@ -549,6 +572,19 @@ function loadSongSelect(){
         iframe.style.display = "none";
         document.body.appendChild(iframe);
 
+        scoreSpan.classList.add("personal-best-score");
+        scoreSpan.id = "score-" + song.id;
+        scoreSpan.innerHTML = `Score: ${localStorage.getItem(song.id + "-score") || 0}`;
+
+        accuracySpan.classList.add("personal-best-accuracy");
+        accuracySpan.id = "accuracy-" + song.id;
+        accuracySpan.innerHTML = `Accuracy: ${localStorage.getItem(song.id + "-accuracy") || "00.00"}%`;
+
+        button.appendChild(document.createElement("br"));
+        button.appendChild(scoreSpan);
+        button.appendChild(document.createTextNode(" | "));
+        button.appendChild(accuracySpan);
+
         span.appendChild(button);
         songSelectWindow.appendChild(span);
     }
@@ -562,7 +598,7 @@ function autoHit(){
         const note_pos = note.note.getBoundingClientRect();
 
         // check if the note will hit
-        if(Math.abs(note_pos.bottom - dkey.getBoundingClientRect().bottom) < 8.0){
+        if(Math.abs(note_pos.bottom - dkey.getBoundingClientRect().bottom) < 10.0){
             // remove all references to the note (can be garbage collected)
             note.note.remove();
             notes.splice(i, 1);

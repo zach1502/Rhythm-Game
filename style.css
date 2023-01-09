@@ -279,6 +279,11 @@ a {
     text-align: center;
 }
 
+.personal-best-score, .personal-best-accuracy {
+    font-size: 20px;
+    width: 100%;
+}
+
 #selected-song {
     background-color: #777;
 }

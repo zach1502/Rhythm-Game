@@ -235,8 +235,8 @@ function storageAvailable(type) {
         return true;
     }
     catch (e) {
-        return e instanceof DOMException && (
-            e.name === 'QuotaExceededError' ||
+        return e instanceof DOMException && 
+            (e.name === 'QuotaExceededError' ||
             e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
             (storage && storage.length !== 0);
     }
@@ -364,4 +364,24 @@ function createChord(prevNote, key){
     newNote.push(key);
 
     return newNote;
+}
+
+function saveScore(){
+    // get the current score
+    const score = parseInt(scoreElement.innerHTML);
+
+    // save the scores
+    localStorage.setItem(`${currentMap}-score`, score);
+}
+
+function saveAccuracy(){
+    // get the current score
+    const score = parseInt(accuracyElement.innerHTML);
+
+    // save the scores
+    localStorage.setItem(`${currentMap}-accuracy`, score);
+}
+
+function clearStorage(){
+    localStorage.clear();
 }
